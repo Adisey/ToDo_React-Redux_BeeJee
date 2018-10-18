@@ -47,9 +47,9 @@ class ShowLogin extends Component {
                      size = { 60 }
                  />
                  <Button
-                     onClick = { this._logOut }
+                     icon = 'poweroff'
                      type = 'primary'
-                     icon = 'poweroff'>Logout
+                     onClick = { this._logOut }>Logout
                  </Button>
              </div>
          );

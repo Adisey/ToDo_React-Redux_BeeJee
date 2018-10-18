@@ -1,27 +1,23 @@
 .main {
-  display: flex;
-  align-items: center;
-  height: 200px;
-  //border: 1px solid #1e90fd;
+    display: flex;
+    align-items: center;
+    height: 210px;
 }
 
 .title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-self: center;
-  flex-grow: 1;
-  //border: 1px solid #fd9612;
-  
-  & h2 {
-    color: #e90d13;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    flex-grow: 1;
+
+    & h2 {
+        color: #e90d13;
+    }
 }
 
 .login {
-  height: 100%;
-  width: 300px;
-  //border: 1px solid #18fd1d;
-  align-items: flex-start;
-  flex-grow: 0;
+    height: 100%;
+    width: 300px;
+    flex-grow: 0;
 }

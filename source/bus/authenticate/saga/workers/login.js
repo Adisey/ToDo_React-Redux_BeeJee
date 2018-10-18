@@ -8,10 +8,15 @@ import { uiActions } from '../../../ui/actions';
 // Instruments
 import { antNotification } from '../../../../instruments';
 
-export function* login ({ payload: credentials }) {
+export function* login ({ payload: userData }) {
     try {
         yield put(uiActions.startFetching());
         // ToDo: Пока нет API
+        console.log('Worker Login -> userData ->', userData);
+
+        if (userData.login !== 'admin' || userData.password !== '123') {
+            throw new Error('Access is denied');
+        }
 
 
         yield put(authenticationAction.login());

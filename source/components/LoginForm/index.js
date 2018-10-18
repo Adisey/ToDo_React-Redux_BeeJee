@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import { login } from '../forms/shapes';
 // ANTD
-import { Form, Icon, Input, Button,   } from 'antd';
+import { Form, Icon, Input, Button   } from 'antd';
 const FormItem = Form.Item;
 //Styles
-// import Styles from '../styles.m.css';
+import Styles from './styles.m.css';
 // Actions
 import { authenticationAction } from '../../bus/authenticate/actions';
 
@@ -22,10 +22,15 @@ const mapDispathToProps = {
     loginAsync: authenticationAction.loginAsync,
 };
 
-
-
 class LoginForm extends Component {
     formikForm = createRef();
+
+    submitForm = (values) => {
+        const {loginAsync} = this.props;
+        console.log('Main SubmitForm ->', values);
+        loginAsync(values);
+
+    };
 
     render () {
         return (
@@ -41,56 +46,66 @@ class LoginForm extends Component {
                         handleChange,
                         handleBlur,
                     } = props;
-                    console.log('Formik props ->', props);
+                    const _submitForm = () => {
+                        if (isValid) {
+                            this.submitForm(values);
+                        }
+                    };
 
                     return (
                         <div>
                             <Form>
                                 <FormItem
-                                    help = { errors.email ? errors.email : '' }
-                                    validateStatus = { errors.email ? 'error' : 'success' }
-                                    hasFeedback >
+                                    hasFeedback
+                                    help = { errors.login ? errors.login : '' }
+                                    validateStatus = { errors.login ? 'error' : 'success' }>
                                     <Input
-                                        defaultValue = { initialValues.email }
-                                        name = 'email'
-                                        onBlur = { handleBlur }
-                                        onChange = { handleChange }
+                                        defaultValue = { initialValues.login }
+                                        name = 'login'
                                         placeholder = 'Login'
                                         prefix = { <Icon
                                             style = {{ color: 'rgba(0,0,0,.25)' }}
-                                            type = 'mail'
+                                            type = 'user'
                                                    /> }
-                                        value = { values.email }
-                                        onPressEnter = { this._submitForm }
+                                        value = { values.login }
+                                        onBlur = { handleBlur }
+                                        onChange = { handleChange }
+                                        onPressEnter = { _submitForm }
                                     />
                                 </FormItem>
 
                                 <FormItem
+                                    hasFeedback
                                     help = { errors.password ? errors.password : '' }
-                                    validateStatus = { errors.password ? 'error' : 'success' }
-                                    hasFeedback >
+                                    validateStatus = { errors.password ? 'error' : 'success' }>
                                     <Input
                                         defaultValue = { initialValues.password }
                                         name = 'password'
-                                        onBlur = { handleBlur }
-                                        onChange = { handleChange }
-                                        onPressEnter = { this._submitForm }
                                         placeholder = 'Password'
                                         prefix = { <Icon
                                             style = {{ color: 'rgba(0,0,0,.25)' }}
                                             type = 'unlock'
-                                        /> }
+                                                   /> }
                                         type = 'password'
                                         value = { values.password }
+                                        onBlur = { handleBlur }
+                                        onChange = { handleChange }
+                                        onPressEnter = { _submitForm }
                                     />
                                 </FormItem>
+                                <Button
+                                    className = { Styles.loginButton }
+                                    disabled = { !isValid }
+                                    icon = 'login'
+                                    type = 'primary'
+                                    onClick = { _submitForm }>Login
+                                </Button>
 
                             </Form>
                         </div>
                     );
                 } }
                 validationSchema = { login.schema }
-                onSubmit = { this._submitForm }
             />
 
         );
