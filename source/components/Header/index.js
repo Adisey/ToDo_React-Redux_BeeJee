@@ -1,6 +1,6 @@
 /**
  * Created by PhpStorm
- * Project p902-BeeJee-ToDo
+ * Project p902-BeeJee-To-Do
  * User: Adisey
  * Date: 18.10.2018
  * Time: 13:51
@@ -16,7 +16,7 @@ export default class Header extends Component {
             <div className = { Styles.main }>
                 <div className = { Styles.title }>
                     <h2>
-                        Adisey ToDo - Тестовое задание от BeeJee
+                        Adisey To Do - Тестовое задание от BeeJee
                     </h2>
                 </div>
                 <div className = { Styles.login }>
