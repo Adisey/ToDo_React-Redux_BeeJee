@@ -7,7 +7,7 @@ const initalState = Map({
     isAuthenticated: false,
 });
 
-export const authReducer = (state = initalState, action) => {
+export const authenticateReducer = (state = initalState, action) => {
     switch (action.type) {
         case type.LOGIN:
             return state.set('isAuthenticated', true);

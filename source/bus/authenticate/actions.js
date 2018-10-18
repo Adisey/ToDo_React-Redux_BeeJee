@@ -1,6 +1,6 @@
 import { type } from './types';
 
-export const authAction = {
+export const authenticationAction = {
     //Sync
     login: () => {
         return {
@@ -13,4 +13,11 @@ export const authAction = {
         };
     },
     // Async
+    loginAsync: (userData) => {
+        return {
+            type:    type.LOGIN_ASYNC,
+            payload: userData,
+        };
+    },
+
 };

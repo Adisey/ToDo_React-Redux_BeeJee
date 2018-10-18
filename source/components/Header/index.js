@@ -9,6 +9,8 @@
 import React, { Component } from 'react';
 // Styles
 import Styles from './styles.m.css';
+// Components
+import { ShowLogin } from '../';
 
 export default class Header extends Component {
     render() {
@@ -20,7 +22,7 @@ export default class Header extends Component {
                     </h2>
                 </div>
                 <div className = { Styles.login }>
-                    Login
+                    <ShowLogin/>
                 </div>
 
             </div>

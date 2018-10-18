@@ -17,17 +17,17 @@ import Styles from './styles.m.css';
 // Components
 import { Header } from '../components';
 // Redux Actions
-import { authAction } from '../bus/authenticate/actions';
+import { authenticationAction } from '../bus/authenticate/actions';
 
 const mapStateToProps = (state) => {
     return {
-        auth: state.auth,
+        authenticate: state.authenticate,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actions: bindActionCreators({ ...authAction }, dispatch),
+        actions: bindActionCreators({ ...authenticationAction }, dispatch),
     };
 };
 
@@ -51,6 +51,7 @@ class ToDoMain extends Component {
     }
 }
 export default connect(
+    // ToDo: Поумать, нужны ли в этом компоненте Пропсы
     mapStateToProps,
     mapDispatchToProps,
 )(ToDoMain);
