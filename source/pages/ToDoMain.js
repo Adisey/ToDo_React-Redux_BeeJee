@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux';
 import Styles from './styles.m.css';
 
 // Components
-import { Header } from '../components';
+import { Header, Tasks } from '../components';
 // Redux Actions
 import { authenticationAction } from '../bus/authenticate/actions';
 
@@ -44,7 +44,7 @@ class ToDoMain extends Component {
             <div className = { Styles.main }>
                 <Header/>
                 <div className = { Styles.content }>
-                    dlf;sldflks;ldkf;ls
+                    <Tasks/>
                 </div>
             </div>
         );
