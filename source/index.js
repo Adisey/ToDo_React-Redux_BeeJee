@@ -1,10 +1,11 @@
 // Core
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+// Styles
+import './styles.css';
 // Theme
 import './theme/init';
+// Page
+import {ToDoMain} from './pages';
 
-const start = <div className = 'start'>Start!</div>;
-
-ReactDOM.render(start, document.getElementById('app'));
+ReactDOM.render(<ToDoMain/>, document.getElementById('app'));
