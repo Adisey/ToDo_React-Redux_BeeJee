@@ -1,10 +1,9 @@
 
 // Core
-import React, { Component, createRef } from 'react';
-import { getIn } from 'immutable';
+import React, { Component } from 'react';
 
 // Antd
-import { Modal, Button, Icon, Card, Avatar, Skeleton } from 'antd';
+import { Modal, Button, Icon, Card, Avatar } from 'antd';
 const { Meta } = Card;
 // Instruments
 // Actionns
@@ -13,9 +12,9 @@ const { Meta } = Card;
 import cx from 'classnames';
 import Styles from './styles.m.css';
 
-export default class ShowTask extends Component {
-    _hideTask = () =>    {
-        this.props.actions.hideTask();
+export default class ModalPreviewTask extends Component {
+    _hideModalPreviewTask = () =>    {
+        this.props.actions.hideModalPreviewTask();
     };
 
 
@@ -44,14 +43,14 @@ export default class ShowTask extends Component {
 
         return (
             <Modal
-                onCancel = { this._hideTask }
+                onCancel = { this._hideModalPreviewTask }
                 title = { <img src = '/static/favicon/beejee-20x20.png' /> }
                 visible
                 footer = { [
                     <Button
                         icon = 'close-circle'
                         key = 'back'
-                        onClick = { this._hideTask }
+                        onClick = { this._hideModalPreviewTask }
                         type = 'primary'>Закрыть
                     </Button>,
                 ] }>

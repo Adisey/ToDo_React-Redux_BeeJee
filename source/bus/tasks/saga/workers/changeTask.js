@@ -7,7 +7,7 @@ import { uiActions } from '../../../ui/actions';
 
 export function* changeTask ({ payload:  task }) {
     try {
-        yield put(uiActions.startFetching());
+        yield put(uiActions.startSpining());
         // const response = yield apply(api, api.tasks.edit, [task]);
         //
         // if (response.status !== 204) {
@@ -18,6 +18,6 @@ export function* changeTask ({ payload:  task }) {
     } catch (error) {
         yield put(uiActions.emitError(error, 'changeTask ${error}'));
     } finally {
-        yield put(uiActions.stopFetching());
+        yield put(uiActions.stopSpining());
     }
 }

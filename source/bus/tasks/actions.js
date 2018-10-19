@@ -30,7 +30,7 @@ export const tasksActions = {
     endEditTask: (id) => {
         return {
             type:    type.END_EDIT_TASK,
-            payload: id,
+            // payload: id,
         };
     },
     changeTask: (task) => {
@@ -57,15 +57,15 @@ export const tasksActions = {
             payload: sort,
         };
     },
-    showTask: (id) => {
+    showModalPreviewTask: (id) => {
         return {
-            type:    type.SHOW_TASK,
+            type:    type.SHOW_MODAL_PREVIEW_TASK,
             payload: id,
         };
     },
-    hideTask: () => {
+    hideModalPreviewTask: () => {
         return {
-            type: type.HIDE_TASK,
+            type: type.HIDE_MODAL_PREVIEW_TASK,
         };
     },
 

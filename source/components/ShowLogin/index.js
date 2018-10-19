@@ -55,7 +55,7 @@ class ShowLogin extends Component {
          );
 
          return (
-             <div className = { Styles.main }>
+             <div className = { Styles.showLogin }>
                  { isAuthenticated ? Logout : <LoginForm/>}
              </div>
          );

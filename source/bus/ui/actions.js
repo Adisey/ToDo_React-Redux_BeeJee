@@ -1,14 +1,14 @@
 import { type } from './types';
 
 export const uiActions = {
-    startFetching: () => {
+    startSpining: () => {
         return {
-            type: type.START_FETCHING,
+            type: type.START_SPINING,
         };
     },
-    stopFetching: () => {
+    stopSpining: () => {
         return {
-            type: type.STOP_FETCHING,
+            type: type.STOP_SPINING,
         };
     },
     emitError: (error, meta = null) => {

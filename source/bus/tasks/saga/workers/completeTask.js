@@ -9,7 +9,7 @@ import { uiActions } from '../../../ui/actions';
 export function* completeTask ({ payload:  task }) {
     console.log('completeTask -> tasksActions ->', tasksActions);
     try {
-        yield put(uiActions.startFetching());
+        yield put(uiActions.startSpining());
     //     task.completed = true;
     //     const response = yield apply(api, api.tasks.edit, [task]);
     //
@@ -20,6 +20,6 @@ export function* completeTask ({ payload:  task }) {
     } catch (error) {
         yield put(uiActions.emitError(error, 'completeTask ${error}'));
     } finally {
-        yield put(uiActions.stopFetching());
+        yield put(uiActions.stopSpining());
     }
 }

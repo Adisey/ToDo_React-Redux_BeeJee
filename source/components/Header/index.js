@@ -15,7 +15,7 @@ import { ShowLogin } from '../';
 export default class Header extends Component {
     render() {
         return (
-            <div className = { Styles.main }>
+            <div className = { Styles.header }>
                 <div className = { Styles.title }>
                     <h2>
                         Adisey To Do - Тестовое задание от BeeJee

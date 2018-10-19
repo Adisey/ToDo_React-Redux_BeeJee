@@ -56,7 +56,7 @@ export const findTitleMetas = (path) => {
 };
 
 /**
- * antNotification -  функция для отобращения уведомлений.
+ * antNotification -  функция для отображения уведомлений.
  * @author Adisey.
  * @param {message} Текст сообщения
  * @param {getType} Тип уведомления (доступны типы 'success',  'info', 'warning', 'error' или текст иконки ["smile"] )

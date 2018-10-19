@@ -12,10 +12,9 @@ import { connect } from 'react-redux';
 // Styles
 import Styles from './styles.m.css';
 // Components
-import { TasksList, ShowTask } from '../';
+import { TasksList, ModalPreviewTask, EditTask, SortTaskBar } from '../';
 // Antd
-import { Pagination, Radio, Icon } from 'antd';
-const RadioGroup = Radio.Group;
+import { Pagination} from 'antd';
 
 // Actions
 import { tasksActions } from '../../bus/tasks/actions';
@@ -39,56 +38,19 @@ class Tasks extends Component {
         this.props.actions.setPage(pageNumber);
     };
 
-    _onChangeSort =(element) => {
-        this.props.actions.sortTask(element.target.value);
-    };
-
-    _onChangeSortOrder =(element) => {
-        this.props.actions.sortOrderTask(element.target.value);
-    };
-
     render() {
         const {tasks, actions } = this.props;
-        console.log('Tasks -> this.props ->', this.props);
 
         return (
-            <div className = { Styles.main }>
-                <div className = { Styles.sort }>
-                    <h4>Сортировать по</h4>
-                    <div>
-
-                        <div>направление </div>
-                        <Radio.Group
-                            buttonStyle = 'solid'
-                            defaultValue = { tasks.get('sort_direction') }
-                            size = 'small'
-                            onChange = { this._onChangeSortOrder }>
-                            <Radio.Button
-                                value = 'asc' ><Icon
-                                    theme = 'outlined'
-                                    type = 'up'
-                                />
-                            </Radio.Button>
-                            <Radio.Button
-                                value = 'desc' ><Icon
-                                    theme = 'outlined'
-                                    type = 'down'
-                                />
-                            </Radio.Button>
-                        </Radio.Group>
-                        <div>столбец</div>
-                        <RadioGroup
-                            onChange = { this._onChangeSort }
-                            value = { tasks.get('sort_field') }>
-                            <Radio value = { 'id' }>ID</Radio>
-                            <Radio value = { 'username' }>Пользователю</Radio>
-                            <Radio value = { 'email' }>Email</Radio>
-                            <Radio value = { 'status' }>Статусу</Radio>
-                        </RadioGroup>
-
-                    </div>
-                </div>
-
+            <div className = { Styles.tasks }>
+                <EditTask
+                    actions = { actions }
+                    tasks = { tasks }
+                />
+                <SortTaskBar
+                    actions = { actions }
+                    tasks = { tasks }
+                />
                 <TasksList
                     actions = { actions }
                     tasks = { tasks }
@@ -100,7 +62,8 @@ class Tasks extends Component {
                     showQuickJumper
                     total = { Number(tasks.get('total_task_count')) }
                 />
-                {tasks.get('showTask') ? <ShowTask
+                // Скрытое модальное окно
+                {tasks.get('isModalPreviewTask') ? <ModalPreviewTask
                     actions = { actions }
                     tasks = { tasks }
                 /> : null}

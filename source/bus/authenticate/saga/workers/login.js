@@ -10,7 +10,7 @@ import { antNotification } from '../../../../instruments';
 
 export function* login ({ payload: userData }) {
     try {
-        yield put(uiActions.startFetching());
+        yield put(uiActions.startSpining());
         // ToDo: Пока нет API
         console.log('Worker Login -> userData ->', userData);
 
@@ -22,8 +22,8 @@ export function* login ({ payload: userData }) {
         yield put(authenticationAction.login());
     } catch (error) {
         yield put(uiActions.emitError(error, 'Login worker failed'));
-        yield call(antNotification, 'Неправильтные Login или Пароль!', 'error');
+        yield call(antNotification, 'Неправильные Login или Пароль!', 'error');
     } finally {
-        yield put(uiActions.stopFetching());
+        yield put(uiActions.stopSpining());
     }
 }
