@@ -28,6 +28,19 @@ export default class ShowTask extends Component {
         const _text = tasks.getIn([ 'tempTask', 'text' ]);
         const _status = tasks.getIn([ 'tempTask', 'status' ]);
         const _image_path = tasks.getIn([ 'tempTask', 'image_path' ]);
+        const _iconStatus = _status ? (
+            <Icon
+                theme = 'twoTone'
+                twoToneColor = '#52c41a'
+                type = 'check-circle'
+            />
+        ) : (
+            <Icon
+                theme = 'twoTone'
+                twoToneColor = '#eb2f96'
+                type = 'clock-circle'
+            />
+        );
 
         return (
             <Modal
@@ -42,24 +55,23 @@ export default class ShowTask extends Component {
                         type = 'primary'>Закрыть
                     </Button>,
                 ] }>
-                <Card >
+                <Card
+                    cover = { _image_path
+                        ? <img
+                            alt = 'example'
+                            src = { _image_path }
+                          />
+                        : <Avatar
+                            icon = 'picture'
+                            shape = 'square'
+                            size = { 128 }
+                        /> }>
                     <Meta
-                        avatar = { _image_path
-                            ? <Avatar
-                                shape = 'square'
-                                size = { 128 }
-                                src = { _image_path }
-                              />
-                            : <Avatar
-                                icon = 'picture'
-                                shape = 'square'
-                                size = { 128 }
-                              /> }
                         description = <div className = { Styles.description }>
                             <p>Пользхователь: <span>{_username}</span></p>
                             <p>Email: <span>{_email}</span></p>
                                       </div>
-                        title = { _text }
+                        title = { <p>{_iconStatus} {_text}</p> }
                     />
                 </Card>
             </Modal>
