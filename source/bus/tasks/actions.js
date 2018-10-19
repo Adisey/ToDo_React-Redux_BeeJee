@@ -57,6 +57,17 @@ export const tasksActions = {
             payload: sort,
         };
     },
+    showTask: (id) => {
+        return {
+            type:    type.SHOW_TASK,
+            payload: id,
+        };
+    },
+    hideTask: () => {
+        return {
+            type: type.HIDE_TASK,
+        };
+    },
 
     // Async
     fetchTasksAsync: (tasks) => {

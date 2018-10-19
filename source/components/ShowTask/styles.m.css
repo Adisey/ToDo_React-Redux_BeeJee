@@ -1,0 +1,7 @@
+.description {
+  background-color: #f6f6f6;
+  & span {
+    color: #1217ff;
+  }
+
+}

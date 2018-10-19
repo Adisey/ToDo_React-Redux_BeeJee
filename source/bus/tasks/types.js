@@ -8,6 +8,8 @@ export const type = {
     START_EDIT_TASK:     'START_EDIT_TASK',
     END_EDIT_TASK:       'END_EDIT_TASK',
     CHANGE_TASK:         'CHANGE_TASK',
+    SHOW_TASK:           'SHOW_TASK',
+    HIDE_TASK:           'HIDE_TASK',
     CHANGE_PAGE:         'CHANGE_PAGE',
     // Asyn
     FETCH_TASKS_ASYNC:   'FETCH_TASKS_ASYNC',

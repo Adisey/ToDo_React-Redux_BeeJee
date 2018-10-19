@@ -88,6 +88,27 @@ export const tasksReducer = (state = initalState, action) => {
         case type.SORT_ORDER_TASK:
             return state.set('sort_direction', action.payload);
 
+        case type.SHOW_TASK:
+            let newState = state.set('showTask', true);
+            let task = {};
+            newState
+                .get('tasks')
+                .filter((t) => t.get('id') === action.payload)
+                .map((t) => {
+                    task.id = t.get('id');
+                    task.username = t.get('username');
+                    task.email = t.get('email');
+                    task.text = t.get('text');
+                    task.status = t.get('status');
+                    task.image_path = t.get('image_path');
+                });
+            newState = newState.set('tempTask', fromJS(task));
+
+            return newState;
+
+        case type.HIDE_TASK:
+            return state.delete('showTask');
+
         default:
             return state;
     }

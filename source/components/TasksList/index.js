@@ -18,9 +18,12 @@ import Styles from './styles.m.css';
 
 
 export default class TasksList extends Component {
+    _showTask = (id) =>    {
+        this.props.actions.showTask(id);
+    };
+
     render() {
         const {tasks} = this.props;
-        console.log('TasksList -> tasks ->', tasks);
 
         const _columns = [
             {
@@ -37,6 +40,16 @@ export default class TasksList extends Component {
                 title:     'Задача',
                 dataIndex: 'text',
                 key:       'text',
+                render:    (text, record) => {
+                    return (
+                        <a
+                            href = 'javascript:;'
+                            onClick = { () => this._showTask(record.key) }>
+                            {text}
+                        </a>
+                    );
+                },
+
             },
             {
                 title:     'Статус',
@@ -47,6 +60,7 @@ export default class TasksList extends Component {
                 title:     'Картинка',
                 dataIndex: 'image',
                 key:       'image',
+
             },
         ];
         const _data = tasks.get('tasks').map((t) => {

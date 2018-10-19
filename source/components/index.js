@@ -3,6 +3,7 @@ import ShowLogin from './ShowLogin';
 import LoginForm from './LoginForm';
 import Tasks from './Tasks';
 import TasksList from './TasksList';
+import ShowTask from './ShowTask';
 
 export {
     Header,
@@ -10,4 +11,5 @@ export {
     LoginForm,
     Tasks,
     TasksList,
+    ShowTask,
 };

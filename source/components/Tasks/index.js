@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 // Styles
 import Styles from './styles.m.css';
 // Components
-import { TasksList } from '../';
+import { TasksList, ShowTask } from '../';
 // Antd
 import { Pagination, Radio, Icon } from 'antd';
 const RadioGroup = Radio.Group;
@@ -48,7 +48,8 @@ class Tasks extends Component {
     };
 
     render() {
-        const {tasks} = this.props;
+        const {tasks, actions } = this.props;
+        console.log('Tasks -> this.props ->', this.props);
 
         return (
             <div className = { Styles.main }>
@@ -61,8 +62,7 @@ class Tasks extends Component {
                             buttonStyle = 'solid'
                             defaultValue = { tasks.get('sort_direction') }
                             size = 'small'
-                            onChange = { this._onChangeSortOrder }
-                        >
+                            onChange = { this._onChangeSortOrder }>
                             <Radio.Button
                                 value = 'asc' ><Icon
                                     theme = 'outlined'
@@ -90,6 +90,7 @@ class Tasks extends Component {
                 </div>
 
                 <TasksList
+                    actions = { actions }
                     tasks = { tasks }
                 />
                 <Pagination
@@ -99,6 +100,10 @@ class Tasks extends Component {
                     showQuickJumper
                     total = { Number(tasks.get('total_task_count')) }
                 />
+                {tasks.get('showTask') ? <ShowTask
+                    actions = { actions }
+                    tasks = { tasks }
+                /> : null}
             </div>
         );
     }
