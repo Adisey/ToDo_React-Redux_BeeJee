@@ -69,7 +69,6 @@ export default class TasksList extends Component {
 
         return (
             <div >
-                To Do List -
                 <Table
                     // bordered
                     // className = { LocalStyles.phoneBookTable }

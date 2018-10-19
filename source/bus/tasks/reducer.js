@@ -1,5 +1,5 @@
 //Core
-import { fromJS, getIn, } from 'immutable';
+import { fromJS } from 'immutable';
 // Types
 import { type } from './types';
 // Instruments
@@ -7,7 +7,6 @@ import { type } from './types';
 // const initalState = List();
 const initalState = fromJS({
     total_task_count: '5',
-    page_count:       '2',
     page:             '1',
     sort_direction:   'asc',
     sort_field:       'id',
@@ -81,7 +80,13 @@ export const tasksReducer = (state = initalState, action) => {
                 return task;
             }));
         case type.CHANGE_PAGE:
-            return state.set([ 'page' ], action.payload);
+            return state.set('page', action.payload);
+
+        case type.SORT_TASK:
+            return state.set('sort_field', action.payload);
+
+        case type.SORT_ORDER_TASK:
+            return state.set('sort_direction', action.payload);
 
         default:
             return state;

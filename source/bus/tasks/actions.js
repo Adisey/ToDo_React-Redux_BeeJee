@@ -45,6 +45,18 @@ export const tasksActions = {
             payload: page,
         };
     },
+    sortOrderTask: (sort) => {
+        return {
+            type:    type.SORT_ORDER_TASK,
+            payload: sort,
+        };
+    },
+    sortTask: (sort) => {
+        return {
+            type:    type.SORT_TASK,
+            payload: sort,
+        };
+    },
 
     // Async
     fetchTasksAsync: (tasks) => {

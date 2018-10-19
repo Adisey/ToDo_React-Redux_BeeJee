@@ -4,6 +4,7 @@ export const type = {
     CREATE_TASK:         'CREATE_TASK',
     COMPLETE_TASK:       'COMPLETE_TASK',
     SORT_TASK:           'SORT_TASK',
+    SORT_ORDER_TASK:     'SORT_ORDER_TASK',
     START_EDIT_TASK:     'START_EDIT_TASK',
     END_EDIT_TASK:       'END_EDIT_TASK',
     CHANGE_TASK:         'CHANGE_TASK',
