@@ -13,6 +13,9 @@ import { connect } from 'react-redux';
 import Styles from './styles.m.css';
 // Components
 import { TasksList } from '../';
+// Antd
+import { Pagination } from 'antd';
+
 // Actions
 import { tasksActions } from '../../bus/tasks/actions';
 
@@ -31,6 +34,11 @@ const mapDispatchToProps = (dispatch) => {
 
 
 class Tasks extends Component {
+    _onChangePagination =(pageNumber) => {
+        console.log('Page: ', pageNumber);
+        this.props.actions.setPage(pageNumber);
+    }
+
     render() {
         const {tasks} = this.props;
 
@@ -39,6 +47,12 @@ class Tasks extends Component {
                        To Do
                 <TasksList
                     tasks = { tasks }
+                />
+                <Pagination
+                    showQuickJumper
+                    defaultCurrent = { 2 }
+                    total = { 500 }
+                    onChange = { this._onChangePagination }
                 />
             </div>
         );

@@ -71,7 +71,7 @@ export default class TasksList extends Component {
             <div >
                 To Do List -
                 <Table
-                    bordered
+                    // bordered
                     // className = { LocalStyles.phoneBookTable }
                     columns = { _columns }
                     dataSource = { _data }
