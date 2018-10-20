@@ -14,7 +14,7 @@ import Styles from './styles.m.css';
 // Components
 import { TasksList, ModalPreviewTask, EditTask, SortTaskBar } from '../';
 // Antd
-import { Pagination} from 'antd';
+import { Pagination, Button } from 'antd';
 
 // Actions
 import { tasksActions } from '../../bus/tasks/actions';
@@ -38,15 +38,16 @@ class Tasks extends Component {
         this.props.actions.setPage(pageNumber);
     };
 
+    _newTask = () => {
+        this.props.actions.showModalEditTask();
+    };
+
+
     render() {
         const {tasks, actions } = this.props;
 
         return (
             <div className = { Styles.tasks }>
-                <EditTask
-                    actions = { actions }
-                    tasks = { tasks }
-                />
                 <SortTaskBar
                     actions = { actions }
                     tasks = { tasks }
@@ -55,14 +56,31 @@ class Tasks extends Component {
                     actions = { actions }
                     tasks = { tasks }
                 />
-                <Pagination
-                    defaultCurrent = { Number(tasks.get('page')) }
-                    defaultPageSize = { 3 }
-                    onChange = { this._onChangePagination }
-                    showQuickJumper
-                    total = { Number(tasks.get('total_task_count')) }
-                />
-                // Скрытое модальное окно
+                <div className = { Styles.PaginationBar }>
+                    <Pagination
+                        defaultCurrent = { Number(tasks.get('page')) }
+                        defaultPageSize = { 3 }
+                        onChange = { this._onChangePagination }
+                        showQuickJumper
+                        total = { Number(tasks.get('total_task_count')) }
+                    />
+                </div>
+                {tasks.get('isModalEditTask')
+                    ? <EditTask
+                        actions = { actions }
+                        tasks = { tasks }
+                      />
+                    : <div className = { Styles.newTaskButton }>
+                        <Button
+                            icon = 'plus'
+                            shape = 'circle'
+                            size = 'large'
+                            type = 'primary'
+                            onClick = { this._newTask }
+                        />
+                      </div>
+                }
+                {/*  Скрытое модальное окно  */}
                 {tasks.get('isModalPreviewTask') ? <ModalPreviewTask
                     actions = { actions }
                     tasks = { tasks }

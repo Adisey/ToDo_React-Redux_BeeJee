@@ -54,38 +54,6 @@ export const tasksReducer = (state = initalState, action) => {
         case type.CREATE_TASK:
             return state.set('tasks', state.get('tasks').unshift(fromJS(action.payload)));
 
-        case type.START_EDIT_TASK:
-
-            let editState = state.set('isEdited', true);
-            let editTask = {
-                id:         '---',
-                username:   '',
-                email:      '',
-                text:       '',
-                status:     0,
-                image_path: '',
-            };
-            if (action.payload) {
-                editState
-                    .get('tasks')
-                    .filter((t) => t.get('id') === action.payload)
-                    .map((t) => {
-                        editTask.id = t.get('id');
-                        editTask.username = t.get('username');
-                        editTask.email = t.get('email');
-                        editTask.text = t.get('text');
-                        editTask.status = t.get('status');
-                        editTask.image_path = t.get('image_path');
-                    });
-            }
-            editState = editState.set('tempTask', fromJS(editTask));
-
-            return editState;
-
-
-        case type.END_EDIT_TASK:
-            return state.set('isEdited', false);
-
         case type.CHANGE_TASK:
             return state.set('tasks', state.get('tasks').map((task) => {
                 if (task.get('id') === action.payload.id) {
@@ -123,6 +91,37 @@ export const tasksReducer = (state = initalState, action) => {
 
         case type.HIDE_MODAL_PREVIEW_TASK:
             return state.delete('isModalPreviewTask');
+
+        case type.SHOW_MODAL_EDIT_TASK:
+            let editState = state.set('isModalEditTask', true);
+            let editTask = {
+                id:         '',
+                username:   '',
+                email:      '',
+                text:       '',
+                status:     0,
+                image_path: '',
+                isValid:    false,
+            };
+            if (action.payload) {
+                editState
+                    .get('tasks')
+                    .filter((t) => t.get('id') === action.payload)
+                    .map((t) => {
+                        editTask.id = t.get('id');
+                        editTask.username = t.get('username');
+                        editTask.email = t.get('email');
+                        editTask.text = t.get('text');
+                        editTask.status = t.get('status');
+                        editTask.image_path = t.get('image_path');
+                    });
+            }
+            editState = editState.set('tempTask', fromJS(editTask));
+
+            return editState;
+
+        case type.HIDE_MODAL_EDIT_TASK:
+            return state.delete('isModalEditTask');
 
         default:
             return state;

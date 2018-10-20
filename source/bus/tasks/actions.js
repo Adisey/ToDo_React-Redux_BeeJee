@@ -21,18 +21,6 @@ export const tasksActions = {
             payload: task,
         };
     },
-    startEditTask: (id) => {
-        return {
-            type:    type.START_EDIT_TASK,
-            payload: id,
-        };
-    },
-    endEditTask: (id) => {
-        return {
-            type:    type.END_EDIT_TASK,
-            // payload: id,
-        };
-    },
     changeTask: (task) => {
         return {
             type:    type.CHANGE_TASK,
@@ -66,6 +54,17 @@ export const tasksActions = {
     hideModalPreviewTask: () => {
         return {
             type: type.HIDE_MODAL_PREVIEW_TASK,
+        };
+    },
+    showModalEditTask: (id) => {
+        return {
+            type:    type.SHOW_MODAL_EDIT_TASK,
+            payload: id,
+        };
+    },
+    hideModalEditTask: () => {
+        return {
+            type: type.HIDE_MODAL_EDIT_TASK,
         };
     },
 
