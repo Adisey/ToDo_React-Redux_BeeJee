@@ -120,6 +120,10 @@ export const tasksReducer = (state = initalState, action) => {
 
             return editState;
 
+        case type.NEW_IMAGE:
+            console.log(`NEW_IMAGE -> action.payload -> "${action.payload}"`);
+            return state.setIn([ 'tempTask', 'image_path' ], action.payload);
+
         case type.HIDE_MODAL_EDIT_TASK:
             return state.delete('isModalEditTask');
 

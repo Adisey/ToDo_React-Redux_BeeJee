@@ -5,27 +5,25 @@
  * Date: 19.10.2018
  * Time: 17:12
  */
-
 // Core
 import React, { Component, createRef } from 'react';
 // Antd
-import { Button, Icon, Input, Form, Upload, Modal } from 'antd';
+import { Button, Icon, Input, Form, Modal } from 'antd';
 const FormItem = Form.Item;
 // Instruments
 import { Formik } from 'formik';
 import { task } from '../forms/shapes';
 import Dropzone from 'react-dropzone';
+import ImageCompressor from 'image-compressor.js';
 // Styles
 import Styles from './styles.m.css';
 import cx from 'classnames';
 
 // Components
-const imageMaxSize = 1000000000;
 
 
 class TaskForm extends Component {
     formikForm = createRef();
-
 
     submitForm = (values) => {
         console.log('Main SubmitForm TaskForm ->', values);
@@ -37,18 +35,6 @@ class TaskForm extends Component {
 
 
     _handleDrop = (files, rejectedFiles) => {
-        if (rejectedFiles && rejectedFiles.length > 0) {
-            const rejectFile = rejectedFiles[ 0 ];
-            const rejectFileSize = rejectFile.size;
-            const rejectFileName = rejectFile.name;
-            if (rejectFileSize > imageMaxSize) {
-                const message = `Допустимый размер при загрузке - ${imageMaxSize / 1024} Kb. \n Размер файла ${rejectFileName} -> ${(rejectFileSize / 1024).toFixed(3)} Kb. \n Выберите другой файл.`;
-
-                alert(message);
-
-                return;
-            }
-        }
         const currentFile = files[ 0 ];
         const myFileItemReader = new FileReader();
 
@@ -56,19 +42,83 @@ class TaskForm extends Component {
             this.setState({
                 imgSrc: myFileItemReader.result,
             });
+            new ImageCompressor(files[ 0 ], {
+                quality:   0.8,
+                maxHeight: 100,
+                maxWidth:  100,
+                success(newFile) {
+                    console.log(` -> result -> "${newFile}"`);
+                    console.log(` -> result.name -> "${newFile.name}"`);
+                    console.log(` -> result.size -> "${newFile.size}"`);
+                    // this.props.actions.newImage(newFile);
+                    // this.props.actions.hideModalEditTask();
+                    // console.log(`ImageCompressor -> this.props.tasks -> "${this.props.tasks}"`);
+                },
+                error(e) {
+                    console.error(e.message);
+                },
+            });
         }, false);
+
         myFileItemReader.readAsDataURL(currentFile);
     };
+    _handleDrop2 = (files ) => {
+        const loadFile = files[ 0 ];
+        new ImageCompressor(loadFile, {
+            quality:   0.8,
+            maxHeight: 240,
+            maxWidth:  320,
+            success(newFile) {
+                console.log(` -> newFile -> "${newFile}"`);
+                console.log(` -> newFile -> "${newFile.name}"`);
+                console.log(` -> newFile -> "${newFile.size}"`);
 
+                const loader = new FileReader();
+
+                loader.onload = () => {
+                    const originalFile = loader.result;
+                    console.log(`Resize -----> Base64 -> "${originalFile}"`);
+                    _aa(originalFile);
+                    // this.setState({
+                    //     imgSrc: originalFile,
+                    // });
+                };
+                loader.onabort = () => console.log('file reading was aborted');
+                loader.onerror = () => console.log('file reading has failed');
+                loader.readAsDataURL(newFile);
+            },
+            error(e) {
+                console.error(e.message);
+            },
+        });
+
+        const _aa = (a) => {
+            console.log(`***************!!!! --------------------> AA -> "${a}"`);
+            this.setState({
+                imgSrc: a,
+            });
+            this.props.actions.newImage(a);
+
+        };
+
+
+
+
+    };
 
     render () {
         const { imgSrc } =  this.state;
+        const { tasks, actions} = this.props;
+        console.log(`TaskForm -> this.props -> "${this.props}"`);
+        console.log(`TaskForm -> tasks -> "${tasks}"`);
+        console.log(`TaskForm -> actions -> "${actions}"`);
 
-        console.log(` -> imgSrc -> "${imgSrc}"`);
+
+        // console.log(` -> imgSrc -> "${imgSrc}"`);
 
         return (
             <Formik
-                // ToDo: Для редактирования нужно прочитать из существующей таски
+            // ToDo: Для редактирования нужно прочитать из существующей таски
                 initialValues = { task.shape }
                 ref = { this.formikForm }
                 render = { (props) => {
@@ -85,7 +135,7 @@ class TaskForm extends Component {
                             this.submitForm(values);
                         }
                     };
-                    console.log('TaskForm -> props ->', props);
+                    console.log('Formik -> props ->', props);
 
                     const labelCol = { span: 5 };
                     const wrapperCol = { span: 12 };
@@ -98,13 +148,12 @@ class TaskForm extends Component {
                                 <Dropzone
                                     accept = 'image/jpeg, image/png, image/gif'
                                     className = 'previewPictureCreateIngredient'
-                                    maxSize = { imageMaxSize }
                                     multiple = { false }
-                                    onDrop = { this._handleDrop.bind(this) }>
+                                    onDrop = { this._handleDrop2.bind(this) }>
                                     {imgSrc !== null ? <img
                                         className = { Styles.showCreateIngredientPicture }
                                         src = { imgSrc }
-                                    /> : <Button>Загрузить картинку</Button>}
+                                                       /> : <Button>Загрузить картинку</Button>}
                                 </Dropzone>
                             </div>
 
@@ -126,7 +175,7 @@ class TaskForm extends Component {
                                     prefix = { <Icon
                                         style = {{ color: 'rgba(0,0,0,.25)' }}
                                         type = 'user'
-                                    /> }
+                                               /> }
                                     value = { values.username }
                                 />
                             </FormItem>
@@ -200,7 +249,11 @@ export default class EditTask extends Component {
     };
 
     render() {
-        const { tasks } = this.props;
+        const { tasks, actions } = this.props;
+        console.log(`EditTask -> this.props -> "${this.props}"`);
+        console.log(`EditTask -> tasks -> "${tasks}"`);
+        console.log(`EditTask -> actions -> "${actions}"`);
+
         const _title = (
             <p>
                 <img src = '/static/favicon/beejee-20x20.png' />
@@ -239,9 +292,11 @@ export default class EditTask extends Component {
                         key = 'submit'
                         type = 'primary'>Сохранить
                     </Button>,
-                    // {bbb},
                 ] }>
-                <TaskForm/>
+                <TaskForm
+                    actions = { actions }
+                    tasks = { tasks }
+                />
             </Modal>
         );
     }

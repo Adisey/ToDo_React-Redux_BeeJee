@@ -11,6 +11,7 @@ export const type = {
     SHOW_MODAL_EDIT_TASK:    'SHOW_MODAL_EDIT_TASK',
     HIDE_MODAL_EDIT_TASK:    'HIDE_MODAL_EDIT_TASK',
     CHANGE_PAGE:             'CHANGE_PAGE',
+    NEW_IMAGE:               'NEW_IMAGE',
     // Asyn
     FETCH_TASKS_ASYNC:       'FETCH_TASKS_ASYNC',
     CREATE_TASK_ASYNC:       'CREATE_TASK_ASYNC',

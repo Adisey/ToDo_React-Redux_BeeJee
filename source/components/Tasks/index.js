@@ -44,7 +44,7 @@ class Tasks extends Component {
 
 
     render() {
-        const {tasks, actions } = this.props;
+        const { tasks, actions } = this.props;
 
         return (
             <div className = { Styles.tasks }>

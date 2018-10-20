@@ -67,6 +67,12 @@ export const tasksActions = {
             type: type.HIDE_MODAL_EDIT_TASK,
         };
     },
+    newImage: (img) => {
+        return {
+            type: type.NEW_IMAGE,
+            payload: img,
+        };
+    },
 
     // Async
     fetchTasksAsync: (tasks) => {
