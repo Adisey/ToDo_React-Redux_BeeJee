@@ -9,10 +9,11 @@ export const tasksActions = {
         };
     },
 
-    createTask: (task) => {
+    createTask: (t) => {
         return {
-            type:    type.CREATE_TASK,
-            payload: task,
+            type: type.CREATE_TASK,
+            payload: t,
+
         };
     },
     completeTask: (task) => {
@@ -87,10 +88,12 @@ export const tasksActions = {
             payload: tasks,
         };
     },
-    createTaskAsync: (taskMessage) => {
+    createTaskAsync: (t) => {
+        console.log('----------------------Actions createTaskAsync------------------- -> "" -> ');
+
         return {
-            type:    type.CREATE_TASK_ASYNC,
-            payload: taskMessage,
+            type: type.CREATE_TASK_ASYNC,
+            payload: t,
         };
     },
     completeTaskAsync: (task) => {

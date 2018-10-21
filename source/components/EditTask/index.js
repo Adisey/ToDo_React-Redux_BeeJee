@@ -220,6 +220,12 @@ export default class EditTask extends Component {
         this.props.actions.showModalPreviewTask();
     };
 
+    _createTask = () => {
+        console.log(`_createTask -> "this.props.actions" -> `, this.props.actions);
+        this.props.actions.createTaskAsync();
+        this.props.actions.hideModalEditTask();
+    };
+
     render() {
         const { tasks, actions } = this.props;
         const _title = (
@@ -258,7 +264,8 @@ export default class EditTask extends Component {
                         ghost
                         icon = 'check'
                         key = 'submit'
-                        type = 'primary'>Сохранить
+                        type = 'primary'
+                        onClick = { this._createTask }>Сохранить
                     </Button>,
                 ] }>
                 <TaskForm

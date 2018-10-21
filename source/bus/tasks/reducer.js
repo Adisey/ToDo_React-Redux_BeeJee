@@ -2,8 +2,9 @@
 import { fromJS } from 'immutable';
 // Types
 import { type } from './types';
-import { dateTime0000 } from '../../instruments';
 // Instruments
+import { v4 } from 'uuid';
+
 
 // const initalState = List();
 const initalState = fromJS({
@@ -52,7 +53,14 @@ export const tasksReducer = (state = initalState, action) => {
                 return task;
             }));
         case type.CREATE_TASK:
-            return state.set('tasks', state.get('tasks').unshift(fromJS(action.payload)));
+            console.log(`---------------------CREATE_TASK -----------> "" -> ` );
+            let createdTask = state.get('tempTask');
+            console.log(`CREATE_TASK -> "createdTask" 1 -> `, createdTask);
+            console.log(`CREATE_TASK -> "createdTask" 2 -> `, v4());
+            const ttt = v4();
+            createdTask =  createdTask.set('id', ttt);
+            console.log(`CREATE_TASK -> "createdTask" 3 -> `, createdTask);
+            return state.set('tasks', state.get('tasks').unshift(createdTask));
 
         case type.CHANGE_TASK:
             return state.set('tasks', state.get('tasks').map((task) => {

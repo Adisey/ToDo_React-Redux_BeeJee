@@ -10,7 +10,7 @@ import { createTask, fillTasks, completeTask, changeTask } from './workers';
 function* watcherFillTasks () {
     yield takeEvery(type.FETCH_TASKS_ASYNC, fillTasks);
 }
-function* watcherCrateTask () {
+function* watcherCreateTask () {
     yield takeEvery(type.CREATE_TASK_ASYNC, createTask);
 }
 function* watcherCompleteTask () {
@@ -22,7 +22,7 @@ function* watcherChangeTask () {
 export function* watcherTasks () {
     yield all([
         call(watcherFillTasks),
-        call(watcherCrateTask),
+        call(watcherCreateTask),
         call(watcherCompleteTask),
         call(watcherChangeTask),
     ]);

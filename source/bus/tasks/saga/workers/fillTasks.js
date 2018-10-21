@@ -15,7 +15,7 @@ export function* fillTasks () {
         // if (response.status !== 200) {
         //     throw new Error(message);
         // }
-        yield put(tasksActions.fillTasks(task));
+        yield put(tasksActions.fillTasks([]));
     } catch (error) {
         yield put(uiActions.emitError(error, 'fillTasks worker'));
     } finally {
