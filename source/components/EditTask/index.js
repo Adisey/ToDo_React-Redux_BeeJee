@@ -81,7 +81,22 @@ class TaskForm extends Component {
                         }
                     };
                     console.log('Formik -> props ->', props);
-                    console.log(`Formik -> isValid -> "${isValid}"`);
+                    console.log('Formik -> isValid -> ', isValid);
+                    if (isValid) {
+                        // ToDo: Это УЖАСНО не правильно, но пока не придумал как обновлять стейт, только при валидной форме.
+                        setTimeout(()=>{
+                            const tempTask = tasks.get('tempTask').toJS();
+                            if (
+                                tempTask.username !== values.username
+                                || tempTask.email !== values.email
+                                || tempTask.text !== values.text
+                                || tempTask.isValid
+                            ) {
+                                console.log(`actions.updateValidTempTask -> values -> "${values}"`);
+                                actions.updateValidTempTask(values);
+                            }
+                        }, 500);
+                    }
 
                     const labelCol = { span: 5 };
                     const wrapperColInput = { span: 12 };
@@ -118,7 +133,7 @@ class TaskForm extends Component {
                                 validateStatus = { errors.username ? 'error' : 'success' }
                                 wrapperCol = { wrapperColInput }>
                                 <Input
-                                    defaultValue = { initialValues.username }
+                                    // defaultValue = { initialValues.username }
                                     name = 'username'
                                     onBlur = { handleBlur }
                                     onChange = { handleChange }
@@ -140,7 +155,7 @@ class TaskForm extends Component {
                                 validateStatus = { errors.email ? 'error' : 'success' }
                                 wrapperCol = { wrapperColInput }>
                                 <Input
-                                    defaultValue = { initialValues.email }
+                                    // defaultValue = { initialValues.email }
                                     name = 'email'
                                     placeholder = 'Email'
                                     prefix = { <Icon
@@ -162,8 +177,8 @@ class TaskForm extends Component {
                                 validateStatus = { errors.text ? 'error' : 'success' }
                                 wrapperCol = { wrapperColText }>
                                 <TextArea
-                                    autosize={{ minRows: 2, maxRows: 6 }}
-                                    defaultValue = { initialValues.text }
+                                    autosize = {{ minRows: 2, maxRows: 6 }}
+                                    // defaultValue = { initialValues.text }
                                     name = 'text'
                                     placeholder = 'Текст задачи'
                                     prefix = { <Icon
@@ -176,14 +191,14 @@ class TaskForm extends Component {
                                     onPressEnter = { _submitForm }
                                 />
                             </FormItem>
-                            <Button
-                                className = { Styles.buttonEditForm }
-                                disabled = { !isValid }
-                                icon = 'plus'
-                                type = 'primary'
-                                // shape = 'circle'
-                                onClick = { _submitForm }>
-                            </Button>
+                            {/*<Button*/}
+                            {/*className = { Styles.buttonEditForm }*/}
+                            {/*disabled = { !isValid }*/}
+                            {/*icon = 'plus'*/}
+                            {/*type = 'primary'*/}
+                            {/*// shape = 'circle'*/}
+                            {/*onClick = { _submitForm }>*/}
+                            {/*</Button>*/}
 
                         </Form>
                     );
@@ -201,6 +216,10 @@ export default class EditTask extends Component {
         this.props.actions.hideModalEditTask();
     };
 
+    _showModalPreviewTask = () => {
+        this.props.actions.showModalPreviewTask();
+    };
+
     render() {
         const { tasks, actions } = this.props;
         const _title = (
@@ -209,7 +228,8 @@ export default class EditTask extends Component {
                 {tasks.getIn([ 'tempTask', 'id' ]) ? '    Редактирование задачи' : '    Новая задача'}
             </p>
         );
-        const _isValid = !!tasks.getIn([ 'tempTask', 'id' ]);
+        const _isValid = tasks.getIn([ 'tempTask', 'isValid' ]);
+        console.log('EditTask -> _isValid -> ', _isValid);
 
         return (
             <Modal
@@ -228,10 +248,9 @@ export default class EditTask extends Component {
                     <Button
                         className = { Styles.buttonEditForm }
                         disabled = { !_isValid }
-                        ghost
                         icon = 'picture'
                         key = 'preview'
-                        type = 'dashed'>Предпросмотр
+                        onClick = { this._showModalPreviewTask }>Предпросмотр
                     </Button>,
                     <Button
                         className = { Styles.buttonEditForm }

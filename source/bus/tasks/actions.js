@@ -69,8 +69,14 @@ export const tasksActions = {
     },
     newImage: (img) => {
         return {
-            type: type.NEW_IMAGE,
+            type:    type.NEW_IMAGE,
             payload: img,
+        };
+    },
+    updateValidTempTask: (task) => {
+        return {
+            type:    type.UPDATE_VALID_TEMP_TASK,
+            payload: task,
         };
     },
 
