@@ -6,6 +6,7 @@ const isEmail       = 'Не валидный Email!';
 const min3          = 'Минимум 3 символа!';
 const min5          = 'Минимум 5 символов!';
 const max25         = 'Максимум 25 символов!';
+const max250         = 'Максимум 250 символов!';
 
 
 export const login = {
@@ -39,6 +40,6 @@ export const task = {
         text: string()
             .required(isRequired)
             .min(3, min3)
-            .max(25, max25),
+            .max(250, max250),
     }),
 };

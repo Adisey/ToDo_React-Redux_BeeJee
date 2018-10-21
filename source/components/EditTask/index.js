@@ -10,11 +10,13 @@ import React, { Component, createRef } from 'react';
 // Antd
 import { Button, Icon, Input, Form, Modal } from 'antd';
 const FormItem = Form.Item;
+const { TextArea } = Input;
 // Instruments
 import { Formik } from 'formik';
 import { task } from '../forms/shapes';
 import Dropzone from 'react-dropzone';
 import ImageCompressor from 'image-compressor.js';
+import { antNotification } from '../../instruments';
 // Styles
 import Styles from './styles.m.css';
 import cx from 'classnames';
@@ -29,92 +31,35 @@ class TaskForm extends Component {
         console.log('Main SubmitForm TaskForm ->', values);
     };
 
-    state = {
-        imgSrc: null,
-    };
+    _loadImage = (files) => {
+        const downloadableFile = files[ 0 ];
+        const _putImageLocalStore = (downloadedCompressedFile) => {
+            this.props.actions.newImage(downloadedCompressedFile);
+        };
 
-
-    _handleDrop = (files, rejectedFiles) => {
-        const currentFile = files[ 0 ];
-        const myFileItemReader = new FileReader();
-
-        myFileItemReader.addEventListener('load', () => {
-            this.setState({
-                imgSrc: myFileItemReader.result,
-            });
-            new ImageCompressor(files[ 0 ], {
-                quality:   0.8,
-                maxHeight: 100,
-                maxWidth:  100,
-                success(newFile) {
-                    console.log(` -> result -> "${newFile}"`);
-                    console.log(` -> result.name -> "${newFile.name}"`);
-                    console.log(` -> result.size -> "${newFile.size}"`);
-                    // this.props.actions.newImage(newFile);
-                    // this.props.actions.hideModalEditTask();
-                    // console.log(`ImageCompressor -> this.props.tasks -> "${this.props.tasks}"`);
-                },
-                error(e) {
-                    console.error(e.message);
-                },
-            });
-        }, false);
-
-        myFileItemReader.readAsDataURL(currentFile);
-    };
-    _handleDrop2 = (files ) => {
-        const loadFile = files[ 0 ];
-        new ImageCompressor(loadFile, {
+        new ImageCompressor(downloadableFile, {
             quality:   0.8,
             maxHeight: 240,
             maxWidth:  320,
-            success(newFile) {
-                console.log(` -> newFile -> "${newFile}"`);
-                console.log(` -> newFile -> "${newFile.name}"`);
-                console.log(` -> newFile -> "${newFile.size}"`);
-
+            success(compressedFile) {
                 const loader = new FileReader();
-
                 loader.onload = () => {
-                    const originalFile = loader.result;
-                    console.log(`Resize -----> Base64 -> "${originalFile}"`);
-                    _aa(originalFile);
-                    // this.setState({
-                    //     imgSrc: originalFile,
-                    // });
+                    const downloadedCompressedFile = loader.result;
+                    _putImageLocalStore(downloadedCompressedFile);
                 };
-                loader.onabort = () => console.log('file reading was aborted');
-                loader.onerror = () => console.log('file reading has failed');
-                loader.readAsDataURL(newFile);
+                loader.onabort = () => antNotification('Загрузка прервана!', 'error', '', 3);
+                loader.onerror = () => antNotification('Ошибка при загрузке!', 'error');
+                loader.readAsDataURL(compressedFile);
             },
-            error(e) {
-                console.error(e.message);
+            error(error) {
+                antNotification('Ошибка сжатия файла!', 'error', error.message);
             },
         });
-
-        const _aa = (a) => {
-            console.log(`***************!!!! --------------------> AA -> "${a}"`);
-            this.setState({
-                imgSrc: a,
-            });
-            this.props.actions.newImage(a);
-
-        };
-
-
-
-
     };
 
     render () {
-        const { imgSrc } =  this.state;
         const { tasks, actions} = this.props;
-        console.log(`TaskForm -> this.props -> "${this.props}"`);
-        console.log(`TaskForm -> tasks -> "${tasks}"`);
-        console.log(`TaskForm -> actions -> "${actions}"`);
-
-
-        // console.log(` -> imgSrc -> "${imgSrc}"`);
+        const  imgSrc  =  tasks.getIn([ 'tempTask', 'image_path' ]);
 
         return (
             <Formik
@@ -136,27 +81,34 @@ class TaskForm extends Component {
                         }
                     };
                     console.log('Formik -> props ->', props);
+                    console.log(`Formik -> isValid -> "${isValid}"`);
 
                     const labelCol = { span: 5 };
-                    const wrapperCol = { span: 12 };
+                    const wrapperColInput = { span: 12 };
+                    const wrapperColText = { span: 18 };
 
                     return (
                         <Form>
-
-
                             <div className = { Styles.mainCreateIngredient }>
-                                <Dropzone
-                                    accept = 'image/jpeg, image/png, image/gif'
-                                    className = 'previewPictureCreateIngredient'
-                                    multiple = { false }
-                                    onDrop = { this._handleDrop2.bind(this) }>
-                                    {imgSrc !== null ? <img
-                                        className = { Styles.showCreateIngredientPicture }
-                                        src = { imgSrc }
-                                                       /> : <Button>Загрузить картинку</Button>}
-                                </Dropzone>
+                                <div className = { Styles.dropzoneCreateIngredient }>
+                                    <Dropzone
+                                        accept = 'image/jpeg, image/png, image/gif'
+                                        className = 'previewPictureCreateIngredient'
+                                        multiple = { false }
+                                        onDrop = { this._loadImage.bind(this) }>
+                                        {imgSrc ? <img
+                                            className = { Styles.showCreateIngredientPicture }
+                                            src = { imgSrc }
+                                        />
+                                            : <div className = { Styles.dropzoneInfo }>
+                                                <p>Перетащиете сюда изображение</p>
+                                                <p>или нажмите: </p>
+                                                <Button icon = 'cloud-upload'>Загрузить</Button>
+                                              </div>
+                                        }
+                                    </Dropzone>
+                                </div>
                             </div>
-
 
                             <FormItem
                                 hasFeedback
@@ -164,7 +116,7 @@ class TaskForm extends Component {
                                 label = 'Пользователь'
                                 labelCol = { labelCol }
                                 validateStatus = { errors.username ? 'error' : 'success' }
-                                wrapperCol = { wrapperCol }>
+                                wrapperCol = { wrapperColInput }>
                                 <Input
                                     defaultValue = { initialValues.username }
                                     name = 'username'
@@ -175,7 +127,7 @@ class TaskForm extends Component {
                                     prefix = { <Icon
                                         style = {{ color: 'rgba(0,0,0,.25)' }}
                                         type = 'user'
-                                               /> }
+                                    /> }
                                     value = { values.username }
                                 />
                             </FormItem>
@@ -186,7 +138,7 @@ class TaskForm extends Component {
                                 label = 'Email'
                                 labelCol = { labelCol }
                                 validateStatus = { errors.email ? 'error' : 'success' }
-                                wrapperCol = { wrapperCol }>
+                                wrapperCol = { wrapperColInput }>
                                 <Input
                                     defaultValue = { initialValues.email }
                                     name = 'email'
@@ -194,7 +146,7 @@ class TaskForm extends Component {
                                     prefix = { <Icon
                                         style = {{ color: 'rgba(0,0,0,.25)' }}
                                         type = 'mail'
-                                               /> }
+                                    /> }
                                     value = { values.email }
                                     onBlur = { handleBlur }
                                     onChange = { handleChange }
@@ -208,15 +160,16 @@ class TaskForm extends Component {
                                 label = 'Текст задачи'
                                 labelCol = { labelCol }
                                 validateStatus = { errors.text ? 'error' : 'success' }
-                                wrapperCol = { wrapperCol }>
-                                <Input
+                                wrapperCol = { wrapperColText }>
+                                <TextArea
+                                    autosize={{ minRows: 2, maxRows: 6 }}
                                     defaultValue = { initialValues.text }
                                     name = 'text'
                                     placeholder = 'Текст задачи'
                                     prefix = { <Icon
                                         style = {{ color: 'rgba(0,0,0,.25)' }}
                                         type = 'exception'
-                                               /> }
+                                    /> }
                                     value = { values.text }
                                     onBlur = { handleBlur }
                                     onChange = { handleChange }
@@ -250,10 +203,6 @@ export default class EditTask extends Component {
 
     render() {
         const { tasks, actions } = this.props;
-        console.log(`EditTask -> this.props -> "${this.props}"`);
-        console.log(`EditTask -> tasks -> "${tasks}"`);
-        console.log(`EditTask -> actions -> "${actions}"`);
-
         const _title = (
             <p>
                 <img src = '/static/favicon/beejee-20x20.png' />

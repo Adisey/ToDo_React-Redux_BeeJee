@@ -5,17 +5,29 @@
 }
 
 .mainCreateIngredient {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.dropzoneCreateIngredient {
     margin: 10px;
-    padding: 0;
-    border: 2px #3ae718 solid;
+    padding: 5px;
+    border: 2px #b5b5b5 solid;
     border-radius: 8px;
-    height: 240px;
-    width: 320px;
+    height: 250px;
+    width: 330px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     font-family: Geneva, Arial, Helvetica, sans-serif;
+    background: #f3f3f3;
+}
+.dropzoneInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
 }
 
@@ -23,4 +35,8 @@
     height: 100%;
     width: 100%;
     cursor: pointer;
+    :hover {
+        border: 2px #42a9fd solid;
+        background: #786b59;
+    }
 }
