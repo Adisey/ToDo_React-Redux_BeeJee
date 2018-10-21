@@ -2,10 +2,10 @@ import { type } from './types';
 
 export const tasksActions = {
     // Sync
-    fillTasks: (tasks) => {
+    fillTasks: (filter) => {
         return {
             type:    type.FILL_TASKS,
-            payload: tasks,
+            payload: filter,
         };
     },
 
@@ -82,15 +82,13 @@ export const tasksActions = {
     },
 
     // Async
-    fetchTasksAsync: (tasks) => {
+    fetchTasksAsync: (filter) => {
         return {
             type:    type.FETCH_TASKS_ASYNC,
-            payload: tasks,
+            payload: filter,
         };
     },
     createTaskAsync: (t) => {
-        console.log('----------------------Actions createTaskAsync------------------- -> "" -> ');
-
         return {
             type: type.CREATE_TASK_ASYNC,
             payload: t,
