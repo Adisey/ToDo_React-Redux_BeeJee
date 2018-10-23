@@ -126,6 +126,9 @@ export const tasksReducer = (state = initalState, action) => {
             return state.set('isModalEditTask', true);
 
         case type.LOAD_IMAGE_PREVIEW_TASK:
+            return state.setIn([ 'previewTask', 'image' ], action.payload);
+
+        case type.LOAD_IMAGE64_PREVIEW_TASK:
             return state.setIn([ 'previewTask', 'image_path' ], action.payload);
 
         case type.LOAD_DATA_PREVIEW_TASK:

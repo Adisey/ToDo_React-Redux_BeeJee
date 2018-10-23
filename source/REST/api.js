@@ -33,8 +33,7 @@ export const api = {
             });
         },
         create (task) {
-            console.log(`API create -> "${ROOT_URL}/create${DEVELOPER}" -> task -`, task);
-            console.log(`API create -> JSON.stringify(task) ->"${JSON.stringify(task)}" -> task -`, task);
+            console.log(`API create -> ---------- -> task -`, task);
 
             const form = new FormData();
             form.append('email', task.email);
@@ -42,7 +41,7 @@ export const api = {
             form.append('username', task.username);
             form.append('image', task.image);
 
-            console.log('API create -> form ->', form);
+            console.log('API create -> form ================->', form);
 
             return fetch(`${ROOT_URL}/create${DEVELOPER}`, {
                 method:  'POST',

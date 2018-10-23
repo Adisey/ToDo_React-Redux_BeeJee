@@ -39,6 +39,11 @@ class TaskForm extends Component {
 
     _loadImage = (files) => {
         const downloadableFile = files[ 0 ];
+        console.log(`_loadImage -> "downloadableFile" ******************-> `, downloadableFile);
+        // this.props.actions.loadImagePreviewTask(downloadableFile);
+        const _putImage64LocalStore = (downloadedCompressedFile64) => {
+            this.props.actions.loadImage64PreviewTask(downloadedCompressedFile64);
+        };
         const _putImageLocalStore = (downloadedCompressedFile) => {
             this.props.actions.loadImagePreviewTask(downloadedCompressedFile);
         };
@@ -48,10 +53,13 @@ class TaskForm extends Component {
             maxHeight: 240,
             maxWidth:  320,
             success(compressedFile) {
+                console.log(`_loadImage -> "compressedFile" ******************-> `, compressedFile);
+                // _putImageLocalStore(compressedFile);
+
                 const loader = new FileReader();
                 loader.onload = () => {
                     const downloadedCompressedFile = loader.result;
-                    _putImageLocalStore(downloadedCompressedFile);
+                    _putImage64LocalStore(downloadedCompressedFile);
                 };
                 loader.onabort = () => antNotification('Загрузка прервана!', 'error', '', 3);
                 loader.onerror = () => antNotification('Ошибка при загрузке!', 'error');
@@ -87,6 +95,8 @@ class TaskForm extends Component {
                     const _createTask = () => {
                         const task = values;
                         task.image_path = imgSrc;
+                        //------------------------------------------------------------
+                        task.image = tasks.getIn([ 'previewTask', 'image' ]);
                         this._createTaskAsync(task);
                     };
                     const _showPreviewTask = () => {

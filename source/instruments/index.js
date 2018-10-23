@@ -51,9 +51,9 @@ export const unionArrea = (listArr) => {
     return outArr;
 };
 
-export const findTitleMetas = (path) => {
-
-};
+// export const findTitleMetas = (path) => {
+//
+// };
 
 /**
  * antNotification -  функция для отображения уведомлений.
@@ -88,4 +88,53 @@ export const antNotification = (
         });
 
     return id;
+};
+
+
+export const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+            byteNumbers[ i ] = slice.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, {type: contentType});
+
+    return blob;
+};
+
+export const b64toBlobFile = (b64Data, fileWithoutExtension = 'my_file') => {
+    let data = b64Data.split(':'); // crop 'data'
+    console.log('1 -> "date" -> ', data);
+    const typeImg = data[ 1 ].split(';'); //crop 'image/png'
+    console.log('2 -> "typeImg" -> ', typeImg);
+    const type = typeImg[ 0 ]; // contentType
+    console.log('3 -> "type" -> ', type);
+    const ext = type.split('/');
+    console.log('4 -> "ext" -> ', ext);
+    const lastModified = Number(new Date());
+    const fileName  = fileWithoutExtension !== 'my_file'
+        ? fileWithoutExtension + '.' + ext[ 1 ]
+        : `my_file-${lastModified}.${ext[ 1 ]}`;
+    console.log('5 -> "fileName" -> ', fileName);
+    const b64 = typeImg[ 1 ].split(','); //crop 'base64,'
+    console.log('6 -> "b64" -> ', b64);
+    const outFile = b64toBlob(b64[ 1 ], type);
+    console.log('7 -> "outFile" -> ', outFile);
+    outFile.name = fileName;
+    outFile.lastModified = lastModified;
+    outFile.lastModifiedDate = new Date(lastModified);
+    console.log('8 -> "outFile" -> ', outFile);
+
+    return outFile;
 };

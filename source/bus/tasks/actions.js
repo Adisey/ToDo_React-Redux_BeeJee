@@ -50,6 +50,12 @@ export const tasksActions = {
             type: type.HIDE_MODAL_EDIT_TASK,
         };
     },
+    loadImage64PreviewTask: (img) => {
+        return {
+            type:    type.LOAD_IMAGE64_PREVIEW_TASK,
+            payload: img,
+        };
+    },
     loadImagePreviewTask: (img) => {
         return {
             type:    type.LOAD_IMAGE_PREVIEW_TASK,
