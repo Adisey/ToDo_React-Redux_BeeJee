@@ -56,12 +56,6 @@ export const tasksActions = {
             payload: img,
         };
     },
-    loadImagePreviewTask: (img) => {
-        return {
-            type:    type.LOAD_IMAGE_PREVIEW_TASK,
-            payload: img,
-        };
-    },
     loadDataPreviewTask: (task) => {
         return {
             type:    type.LOAD_DATA_PREVIEW_TASK,
@@ -119,13 +113,13 @@ export const tasksActions = {
     },
     sortTaskAsync: (sort) => {
         return {
-            type:    type.SORT_ORDER_TASK_ASYNC,
+            type:    type.SORT_TASK_ASYNC,
             payload: sort,
         };
     },
     sortOrderTaskAsync: (sortOrder) => {
         return {
-            type:    type.SORT_TASK_ASYNC,
+            type:    type.SORT_ORDER_TASK_ASYNC,
             payload: sortOrder,
         };
     },

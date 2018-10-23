@@ -15,17 +15,11 @@ export const api = {
     tasks: {
         fetch(filter) {
             // ToDo: Спросить: Зачем было делать запрос на сортировку, если сервер её игнорирует.
-            let _filter = '';
-            if (filter.page !== '1') {
-                _filter = _filter + '&page=' + filter.page;
-            }
-            if (filter.sort_field  !== 'id') {
-                _filter = _filter + '&sort_field=' + filter.sort_field;
-            }
-            if (filter.sort_direction !== 'asc') {
-                _filter = _filter + '&sort_direction=' + filter.sort_direction;
-            }
+            let _filter = '&page=' + filter.page +
+                '&sort_field=' + filter.sort_field +
+                '&sort_direction=' + filter.sort_direction;
 
+            console.log(` -> ${ROOT_URL}/${DEVELOPER}${_filter}   <- ` );
             return fetch(`${ROOT_URL}/${DEVELOPER}${_filter}`, {
                 method:  'GET',
                 headers: {

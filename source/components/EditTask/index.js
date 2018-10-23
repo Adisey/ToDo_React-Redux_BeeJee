@@ -9,6 +9,7 @@
 import React, { Component, createRef } from 'react';
 // Antd
 import { Button, Icon, Input, Form, Modal } from 'antd';
+
 const FormItem = Form.Item;
 const { TextArea } = Input;
 // Instruments
@@ -39,23 +40,14 @@ class TaskForm extends Component {
 
     _loadImage = (files) => {
         const downloadableFile = files[ 0 ];
-        console.log(`_loadImage -> "downloadableFile" ******************-> `, downloadableFile);
-        // this.props.actions.loadImagePreviewTask(downloadableFile);
         const _putImage64LocalStore = (downloadedCompressedFile64) => {
             this.props.actions.loadImage64PreviewTask(downloadedCompressedFile64);
         };
-        const _putImageLocalStore = (downloadedCompressedFile) => {
-            this.props.actions.loadImagePreviewTask(downloadedCompressedFile);
-        };
-
         new ImageCompressor(downloadableFile, {
             quality:   0.8,
             maxHeight: 240,
             maxWidth:  320,
             success(compressedFile) {
-                console.log(`_loadImage -> "compressedFile" ******************-> `, compressedFile);
-                // _putImageLocalStore(compressedFile);
-
                 const loader = new FileReader();
                 loader.onload = () => {
                     const downloadedCompressedFile = loader.result;
@@ -71,14 +63,14 @@ class TaskForm extends Component {
         });
     };
 
-    render () {
+    render() {
         const { tasks } = this.props;
 
-        const  imgSrc  =  tasks.getIn([ 'previewTask', 'image_path' ]);
+        const imgSrc = tasks.getIn([ 'previewTask', 'image_path' ]);
 
         return (
             <Formik
-            // ToDo: Для редактирования нужно прочитать из существующей таски
+                // ToDo: Для редактирования нужно прочитать из существующей таски
                 initialValues = { task.shape }
                 ref = { this.formikForm }
                 render = { (props) => {
@@ -124,7 +116,7 @@ class TaskForm extends Component {
                                                 <p>Перетащиете сюда изображение</p>
                                                 <p>или нажмите: </p>
                                                 <Button icon = 'cloud-upload'>Загрузить</Button>
-                                              </div>
+                                            </div>
                                         }
                                     </Dropzone>
                                 </div>
@@ -146,7 +138,7 @@ class TaskForm extends Component {
                                     prefix = { <Icon
                                         style = {{ color: 'rgba(0,0,0,.25)' }}
                                         type = 'user'
-                                    /> }
+                                               /> }
                                     value = { values.username }
                                 />
                             </FormItem>
@@ -165,7 +157,7 @@ class TaskForm extends Component {
                                     prefix = { <Icon
                                         style = {{ color: 'rgba(0,0,0,.25)' }}
                                         type = 'mail'
-                                    /> }
+                                               /> }
                                     value = { values.email }
                                     onBlur = { handleBlur }
                                     onChange = { handleChange }
@@ -187,7 +179,7 @@ class TaskForm extends Component {
                                     prefix = { <Icon
                                         style = {{ color: 'rgba(0,0,0,.25)' }}
                                         type = 'exception'
-                                    /> }
+                                               /> }
                                     value = { values.text }
                                     onBlur = { handleBlur }
                                     onChange = { handleChange }
@@ -228,8 +220,9 @@ class TaskForm extends Component {
         );
     }
 }
+
 export default class EditTask extends Component {
-    _hideModalEditTask = () =>    {
+    _hideModalEditTask = () => {
         this.props.actions.hideModalEditTask();
     };
 
@@ -237,7 +230,7 @@ export default class EditTask extends Component {
         const { tasks, actions } = this.props;
         const _title = (
             <p>
-                <img src = '/static/favicon/beejee-20x20.png' />
+                <img src = '/static/favicon/beejee-20x20.png'/>
                 {tasks.getIn([ 'previewTask', 'id' ]) ? '    Редактирование задачи' : '    Новая задача'}
             </p>
         );
