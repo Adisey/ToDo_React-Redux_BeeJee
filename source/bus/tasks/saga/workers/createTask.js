@@ -1,15 +1,15 @@
 // Core
-import { put, apply } from 'redux-saga/effects';
+import { put, apply, call} from 'redux-saga/effects';
 import { v4 } from 'uuid';
 
 // import { api } from '../../../../REST';
 import { tasksActions } from '../../actions';
 import { uiActions } from '../../../ui/actions';
-// import { notificationActions } from '../../../notification/actions';
+import { antNotification } from '../../../../instruments';
 
-export function* createTask () {
+
+export function* createTask ({payload: task}) {
     try {
-        console.log(`function* createTask -> "1" -> `, 1);
         yield put(uiActions.startSpining());
         // const response = yield apply(api, api.tasks.create, [taskMessage]);
         //
@@ -18,27 +18,13 @@ export function* createTask () {
         // if (response.status !== 200) {
         //     throw new Error(message);
         // }
-        // const task =  {
-        //     id:        v4(),
-        //     message:   taskMessage,
-        //     completed: false,
-        //     favorite:  false,
-        // };
-        console.log(`function* createTask -> "2" -> `, 2);
-        yield put(tasksActions.createTask());
-        // yield put(notificationActions.showNotification('Задача сохранена !'));
-        console.log(`function* createTask -> "3" -> `, 3);
+        task.id = v4();
+        yield put(tasksActions.createTask(task));
+        yield call(antNotification, 'Задача соранена!', 'info');
     } catch (error) {
-        console.log(`function* createTask -> "5" -> `, 5);
         yield put(uiActions.emitError(error, 'createTask worker'));
-        // yield put(notificationActions.showNotification(
-        //     'Проблема с сохранением задачи!',
-        //     'error',
-        //     'createTask worker',
-        // ));
-        console.log(`function* createTask -> "6" -> `, 6);
+        yield call(antNotification, 'Проблема с сохранением задачи!', 'error');
     } finally {
-        console.log(`function* createTask -> "7" -> `, 7);
         yield put(uiActions.stopSpining());
     }
 }

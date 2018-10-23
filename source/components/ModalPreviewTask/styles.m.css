@@ -1,7 +1,15 @@
 .description {
-  background-color: #f6f6f6;
-  & span {
-    color: #1217ff;
-  }
+    background-color: #f6f6f6;
+    & span {
+        color: #1217ff;
+    }
 
+}
+
+.buttonEditForm {
+    margin-left: 8px;
+    margin-bottom: 0;
+    & i {
+        vertical-align: 0;
+    }
 }

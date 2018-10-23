@@ -14,16 +14,18 @@ import { ROOT_URL, DEVELOPER, TOKEN } from './';
 export const api = {
     tasks: {
         fetch(filter) {
-            console.log('TASK fetch -> "filter" -> ', filter);
-            console.log(`TASK fetch -> "${ROOT_URL}/${DEVELOPER}" -> `);
-            console.log('TASK fetch -> "TOKEN" -> ', TOKEN);
-            return fetch(`${ROOT_URL}/${DEVELOPER}`, {
+            // return fetch(`aaa.${ROOT_URL}/${DEVELOPER}`, {
+            return fetch(`aaa./${DEVELOPER}`, {
                 method:  'GET',
                 headers: {
-                    'Content-Type': 'multipart/form-data',
-                    "Authorization":  TOKEN,
+                    mimeType:      'multipart/form-data',
+                    Authorization: TOKEN,
+                    crossDomain:   true,
+                    contentType:   false,
+                    processData:   false,
+                    dataType:      'json',
                 },
-                // body: JSON.stringify(filter),
+                data: JSON.stringify(filter),
             });
         },
     },

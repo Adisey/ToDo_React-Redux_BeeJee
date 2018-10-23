@@ -21,12 +21,12 @@ export default class ModalPreviewTask extends Component {
     render () {
         const { tasks } = this.props;
 
-        const _id = tasks.getIn([ 'id', 'tempTask' ]);
-        const _username = tasks.getIn([ 'tempTask', 'username' ]);
-        const _email = tasks.getIn([ 'tempTask', 'email' ]);
-        const _text = tasks.getIn([ 'tempTask', 'text' ]);
-        const _status = tasks.getIn([ 'tempTask', 'status' ]);
-        const _image_path = tasks.getIn([ 'tempTask', 'image_path' ]);
+        const _id = tasks.getIn([ 'id', 'previewTask' ]);
+        const _username = tasks.getIn([ 'previewTask', 'username' ]);
+        const _email = tasks.getIn([ 'previewTask', 'email' ]);
+        const _text = tasks.getIn([ 'previewTask', 'text' ]);
+        const _status = tasks.getIn([ 'previewTask', 'status' ]);
+        const _image_path = tasks.getIn([ 'previewTask', 'image_path' ]);
         const _iconStatus = _status ? (
             <Icon
                 theme = 'twoTone'
@@ -48,6 +48,7 @@ export default class ModalPreviewTask extends Component {
                 visible
                 footer = { [
                     <Button
+                        className = { Styles.buttonEditForm }
                         icon = 'close-circle'
                         key = 'back'
                         onClick = { this._hideModalPreviewTask }

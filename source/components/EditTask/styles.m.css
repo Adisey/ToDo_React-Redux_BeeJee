@@ -1,4 +1,6 @@
 .buttonEditForm {
+    margin-left: 8px;
+    margin-bottom: 0;
     & i {
         vertical-align: 0;
     }
@@ -39,4 +41,11 @@
         border: 2px #42a9fd solid;
         background: #786b59;
     }
+}
+.footer {
+    padding: 20px 0 0;
+    //border-top: 1px solid #e8e8e8;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }

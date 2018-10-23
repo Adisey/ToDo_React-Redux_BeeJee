@@ -1,12 +1,5 @@
-# BeeJee ®­« ©­-à¥¤ ªâ®à dayside 
-# do not track password
-server/password.php
-
-# temp pid file for xdebug
-plugins/xdebug/proxy/proxy.pid
-
-client/lib/monaco/min-maps/
-
+# BeeJee Ð¾Ð½Ð»Ð°Ð¹Ð½-Ñ€ÐµÐ´Ð°ÐºÑ‚Ð¾Ñ€ dayside
+/dayside/
 # == Core ==
 
 # Directories at root of a project

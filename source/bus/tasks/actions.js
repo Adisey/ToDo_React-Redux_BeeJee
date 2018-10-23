@@ -9,10 +9,10 @@ export const tasksActions = {
         };
     },
 
-    createTask: (t) => {
+    createTask: (task) => {
         return {
             type: type.CREATE_TASK,
-            payload: t,
+            payload: task,
 
         };
     },
@@ -68,15 +68,15 @@ export const tasksActions = {
             type: type.HIDE_MODAL_EDIT_TASK,
         };
     },
-    newImage: (img) => {
+    loadImagePreviewTask: (img) => {
         return {
-            type:    type.NEW_IMAGE,
+            type:    type.LOAD_IMAGE_PREVIEW_TASK,
             payload: img,
         };
     },
-    updateValidTempTask: (task) => {
+    loadDataPreviewTask: (task) => {
         return {
-            type:    type.UPDATE_VALID_TEMP_TASK,
+            type:    type.LOAD_DATA_PREVIEW_TASK,
             payload: task,
         };
     },
