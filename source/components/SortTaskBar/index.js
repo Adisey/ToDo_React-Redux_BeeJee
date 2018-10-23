@@ -15,19 +15,20 @@ const RadioGroup = Radio.Group;
 import Styles from './styles.m.css';
 
 
-
 export default class SortTaskBar extends Component {
     _onChangeSort = (element) => {
-        this.props.actions.sortTask(element.target.value);
+        this.props.actions.sortTaskAsync(element.target.value);
     };
 
     _onChangeSortOrder = (element) => {
-        this.props.actions.sortOrderTask(element.target.value);
+        this.props.actions.sortOrderTaskAsync(element.target.value);
     };
 
     render() {
         const { tasks } = this.props;
-        console.log('SortTaskBar -> this.props ->', this.props);
+        const _sort_field = tasks.get('sort_field');
+        const _sort_direction = tasks.get('sort_direction');
+
         return (
             <div className = { Styles.sort }>
                 <h4>Сортировать по</h4>
@@ -36,25 +37,25 @@ export default class SortTaskBar extends Component {
                     <div>направление </div>
                     <Radio.Group
                         buttonStyle = 'solid'
-                        defaultValue = { tasks.get('sort_direction') }
-                        size = 'small'
-                        onChange = { this._onChangeSortOrder }>
+                        defaultValue = { _sort_direction }
+                        onChange = { this._onChangeSortOrder }
+                        size = 'small'>
                         <Radio.Button
                             value = 'asc' ><Icon
-                            theme = 'outlined'
-                            type = 'up'
-                        />
+                                theme = 'outlined'
+                                type = 'up'
+                            />
                         </Radio.Button>
                         <Radio.Button
                             value = 'desc' ><Icon
-                            theme = 'outlined'
-                            type = 'down'
-                        />
+                                theme = 'outlined'
+                                type = 'down'
+                            />
                         </Radio.Button>
                     </Radio.Group>
                     <div>столбец</div>
                     <RadioGroup
-                        value = { tasks.get('sort_field') }
+                        defaultValue = { _sort_field }
                         onChange = { this._onChangeSort }>
                         <Radio value = { 'id' }>ID</Radio>
                         <Radio value = { 'username' }>Пользователю</Radio>
@@ -65,10 +66,7 @@ export default class SortTaskBar extends Component {
                 </div>
             </div>
 
-        )
-
-
-
+        );
     }
 }
 

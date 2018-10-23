@@ -2,10 +2,10 @@ import { type } from './types';
 
 export const tasksActions = {
     // Sync
-    fillTasks: (filter) => {
+    fillTasks: (tasks) => {
         return {
             type:    type.FILL_TASKS,
-            payload: filter,
+            payload: tasks,
         };
     },
 
@@ -26,24 +26,6 @@ export const tasksActions = {
         return {
             type:    type.CHANGE_TASK,
             payload: task,
-        };
-    },
-    setPage: (page) => {
-        return {
-            type:    type.CHANGE_PAGE,
-            payload: page,
-        };
-    },
-    sortOrderTask: (sort) => {
-        return {
-            type:    type.SORT_ORDER_TASK,
-            payload: sort,
-        };
-    },
-    sortTask: (sort) => {
-        return {
-            type:    type.SORT_TASK,
-            payload: sort,
         };
     },
     showModalPreviewTask: (id) => {
@@ -80,12 +62,29 @@ export const tasksActions = {
             payload: task,
         };
     },
+    setPage: (page) => {
+        return {
+            type:    type.CHANGE_PAGE,
+            payload: page,
+        };
+    },
+    sortTask: (sort) => {
+        return {
+            type:    type.SORT_TASK,
+            payload: sort,
+        };
+    },
+    sortOrderTask: (sortOrder) => {
+        return {
+            type:    type.SORT_ORDER_TASK,
+            payload: sortOrder,
+        };
+    },
 
     // Async
-    fetchTasksAsync: (filter) => {
+    fetchTasksAsync: () => {
         return {
             type:    type.FETCH_TASKS_ASYNC,
-            payload: filter,
         };
     },
     createTaskAsync: (t) => {
@@ -106,4 +105,23 @@ export const tasksActions = {
             payload: task,
         };
     },
+    setPageAsync: (page) => {
+        return {
+            type:    type.CHANGE_PAGE_ASYNC,
+            payload: page,
+        };
+    },
+    sortTaskAsync: (sort) => {
+        return {
+            type:    type.SORT_ORDER_TASK_ASYNC,
+            payload: sort,
+        };
+    },
+    sortOrderTaskAsync: (sortOrder) => {
+        return {
+            type:    type.SORT_TASK_ASYNC,
+            payload: sortOrder,
+        };
+    },
+
 };

@@ -43,7 +43,9 @@ const initalState = fromJS({
 export const tasksReducer = (state = initalState, action) => {
     switch (action.type) {
         case type.FILL_TASKS:
-            return state.set('tasks', fromJS(action.payload));
+            const fillTaskState = state.set('tasks', fromJS(action.payload.tasks));
+
+            return fillTaskState.set('total_task_count', fromJS(action.payload.total_task_count));
         case type.COMPLETE_TASK:
             return state.set('tasks', state.get('tasks').map((task) => {
                 if (task.get('id') === action.payload.id) {
