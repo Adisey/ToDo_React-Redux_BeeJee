@@ -2,7 +2,6 @@
 import { object, string} from 'yup';
 
 const isRequired    = 'Не должно быть пустым!';
-const isRequiredImg = 'Картинка обязательна!';
 const isEmail       = 'Не валидный Email!';
 const min3          = 'Минимум 3 символа!';
 const min5          = 'Минимум 5 символов!';
@@ -22,8 +21,6 @@ export const login = {
         password: string()
             .required(isRequired)
             .min(3, min3),
-        image_path: string()
-            .required(isRequiredImg),
     }),
 };
 export const task = {

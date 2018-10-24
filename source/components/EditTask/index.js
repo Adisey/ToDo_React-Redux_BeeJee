@@ -77,6 +77,7 @@ class TaskForm extends Component {
                     };
                     const labelCol = { span: 5 };
                     const wrapperColText = { span: 18 };
+                    console.log('Formik Render  -> "values.status " -> ', values.status);
 
                     return (
                         <Form>
@@ -86,8 +87,8 @@ class TaskForm extends Component {
                                 labelCol = { labelCol }
                                 wrapperCol = { wrapperColText }>
                                 <Checkbox
+                                    checked = { values.status }
                                     name = 'status'
-                                    values = { values.status }
                                     onChange = { handleChange }
                                 />
                             </FormItem>
