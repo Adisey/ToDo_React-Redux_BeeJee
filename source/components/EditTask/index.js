@@ -67,6 +67,7 @@ class TaskForm extends Component {
                     } = props;
                     const _updateTask = () => {
                         const task = values;
+                        task.status = task.status ? 10 : 0;
                         this._updateTaskAsync(task);
                     };
                     const _showPreviewTask = () => {

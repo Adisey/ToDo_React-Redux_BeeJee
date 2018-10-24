@@ -59,11 +59,12 @@ export const tasksReducer = (state = initalState, action) => {
 
         case type.UPDATE_TASK:
             return state.set('tasks', state.get('tasks').map((task) => {
+                let updateTask = task;
                 if (task.get('id') === action.payload.id) {
-                    task = fromJS(action.payload);
+                    updateTask = fromJS(action.payload);
                 }
 
-                return task;
+                return updateTask;
             }));
         case type.CHANGE_PAGE:
             return state.set('page', action.payload);

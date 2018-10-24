@@ -10,15 +10,14 @@ import { antNotification } from '../../../../instruments';
 export function* updateTask ({payload: task}) {
     try {
         yield put(uiActions.startSpining());
-        // const response = yield apply(api, api.tasks.update, [ task ]);
-        // const { message, status } = yield apply(response, response.json);
-        // if (response.status !== 200) {
-        //     throw new Error(message);
-        // }
-        // if (status !== 'ok') {
-        //     throw new Error(message.status);
-        // }
-
+        const response = yield apply(api, api.tasks.update, [ task ]);
+        const { message, status } = yield apply(response, response.json);
+        if (response.status !== 200) {
+            throw new Error(message);
+        }
+        if (status !== 'ok') {
+            throw new Error(message.status);
+        }
         yield put(tasksActions.updateTask(task));
         yield call(antNotification, 'Задача соранена!', 'info');
     } catch (error) {
