@@ -38,6 +38,10 @@ class NewTaskForm extends Component {
         this.props.actions.hideModalNewTask();
     };
 
+    _closeNewTask = () => {
+        this.props.actions.hideModalNewTask();
+    };
+
     _loadImage = (files) => {
         const downloadableFile = files[ 0 ];
         const _putImage64LocalStore = (downloadedCompressedFile64) => {
@@ -75,14 +79,12 @@ class NewTaskForm extends Component {
                 render = { (props) => {
                     const {
                         values,
-                        initialValues,
                         errors,
                         isValid,
                         handleChange,
                         handleBlur,
                     } = props;
-                    // console.log('Formik -> props ->', props);
-                    // console.log('Formik -> isValid -> ', isValid);
+                    const _isValid = isValid && !!imgSrc;
                     const _createTask = () => {
                         const task = values;
                         task.image_path = imgSrc;
@@ -189,20 +191,20 @@ class NewTaskForm extends Component {
                                     className = { Styles.buttonEditForm }
                                     icon = 'close'
                                     key = 'back'
-                                    onClick = { this._hideModalEditTask }
+                                    onClick = { this._closeNewTask }
                                     type = 'danger'
                                     ghost>Закрыть
                                 </Button>
                                 <Button
                                     className = { Styles.buttonEditForm }
-                                    disabled = { !isValid }
+                                    disabled = { !_isValid }
                                     icon = 'picture'
                                     key = 'preview'
                                     onClick = { _showPreviewTask }>Предпросмотр
                                 </Button>
                                 <Button
                                     className = { Styles.buttonEditForm }
-                                    disabled = { !isValid }
+                                    disabled = { !_isValid }
                                     ghost
                                     icon = 'check'
                                     key = 'submit'

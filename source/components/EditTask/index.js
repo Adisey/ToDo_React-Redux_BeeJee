@@ -8,16 +8,13 @@
 // Core
 import React, { Component, createRef } from 'react';
 // Antd
-import { Button, Icon, Input, Form, Modal } from 'antd';
+import { Button, Icon, Input, Form, Modal, Checkbox } from 'antd';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
 // Instruments
 import { Formik } from 'formik';
 import { task } from '../forms/shapes';
-import Dropzone from 'react-dropzone';
-import ImageCompressor from 'image-compressor.js';
-import { antNotification } from '../../instruments';
 // Styles
 import Styles from './styles.m.css';
 import cx from 'classnames';
@@ -33,138 +30,66 @@ class TaskForm extends Component {
         this.props.actions.showModalPreviewTask();
     };
 
-    _createTaskAsync = (task) => {
-        this.props.actions.createTaskAsync(task);
+    _updateTaskAsync = (task) => {
+        this.props.actions.updateTaskAsync(task);
         this.props.actions.hideModalEditTask();
     };
 
-    _loadImage = (files) => {
-        const downloadableFile = files[ 0 ];
-        const _putImage64LocalStore = (downloadedCompressedFile64) => {
-            this.props.actions.loadImage64PreviewTask(downloadedCompressedFile64);
-        };
-        new ImageCompressor(downloadableFile, {
-            quality:   0.8,
-            maxHeight: 240,
-            maxWidth:  320,
-            success(compressedFile) {
-                const loader = new FileReader();
-                loader.onload = () => {
-                    const downloadedCompressedFile = loader.result;
-                    _putImage64LocalStore(downloadedCompressedFile);
-                };
-                loader.onabort = () => antNotification('Загрузка прервана!', 'error', '', 3);
-                loader.onerror = () => antNotification('Ошибка при загрузке!', 'error');
-                loader.readAsDataURL(compressedFile);
-            },
-            error(error) {
-                antNotification('Ошибка сжатия файла!', 'error', error.message);
-            },
-        });
+    _closeEditTask = () => {
+        this.props.actions.hideModalEditTask();
     };
 
     render() {
         const { tasks } = this.props;
-
-        const imgSrc = tasks.getIn([ 'previewTask', 'image_path' ]);
+        const editTask = {};
+        editTask.id = tasks.get('editTaskId');
+        tasks.get('tasks').map((t) => {
+            if (t.get('id') === editTask.id) {
+                editTask.email = t.get('email');
+                editTask.image_path = t.get('image_path');
+                editTask.status = !!t.get('status');
+                editTask.text = t.get('text');
+                editTask.username = t.get('username');
+            }
+        });
 
         return (
             <Formik
-                initialValues = { task.shape }
+                initialValues = { editTask }
                 ref = { this.formikForm }
                 render = { (props) => {
                     const {
                         values,
-                        initialValues,
                         errors,
                         isValid,
                         handleChange,
                         handleBlur,
                     } = props;
-                    // console.log('Formik -> props ->', props);
-                    // console.log('Formik -> isValid -> ', isValid);
-                    const _createTask = () => {
+                    const _updateTask = () => {
                         const task = values;
-                        task.image_path = imgSrc;
-                        //------------------------------------------------------------
-                        task.image = tasks.getIn([ 'previewTask', 'image' ]);
-                        this._createTaskAsync(task);
+                        this._updateTaskAsync(task);
                     };
                     const _showPreviewTask = () => {
                         const previewTask = values;
+                        previewTask.status = values.status ? 10 : 0;
                         this._showModalPreviewTask(previewTask);
                     };
                     const labelCol = { span: 5 };
-                    const wrapperColInput = { span: 12 };
                     const wrapperColText = { span: 18 };
 
                     return (
                         <Form>
-                            <div>Редактирование!!!!</div>
-
-                            <div className = { Styles.mainCreateIngredient }>
-                                <div className = { Styles.dropzoneCreateIngredient }>
-                                    <Dropzone
-                                        accept = 'image/jpeg, image/png, image/gif'
-                                        className = 'previewPictureCreateIngredient'
-                                        multiple = { false }
-                                        onDrop = { this._loadImage.bind(this) }>
-                                        {imgSrc ? <img
-                                            className = { Styles.showCreateIngredientPicture }
-                                            src = { imgSrc }
-                                        />
-                                            : <div className = { Styles.dropzoneInfo }>
-                                                <p>Перетащиете сюда изображение</p>
-                                                <p>или нажмите: </p>
-                                                <Button icon = 'cloud-upload'>Загрузить</Button>
-                                            </div>
-                                        }
-                                    </Dropzone>
-                                </div>
-                            </div>
-
                             <FormItem
                                 hasFeedback
-                                help = { errors.username ? errors.username : ' ' }
-                                label = 'Пользователь'
+                                label = 'Статус'
                                 labelCol = { labelCol }
-                                validateStatus = { errors.username ? 'error' : 'success' }
-                                wrapperCol = { wrapperColInput }>
-                                <Input
-                                    // defaultValue = { initialValues.username }
-                                    name = 'username'
-                                    onBlur = { handleBlur }
-                                    onChange = { handleChange }
-                                    placeholder = 'Username'
-                                    prefix = { <Icon
-                                        style = {{ color: 'rgba(0,0,0,.25)' }}
-                                        type = 'user'
-                                               /> }
-                                    value = { values.username }
-                                />
-                            </FormItem>
-
-                            <FormItem
-                                hasFeedback
-                                help = { errors.email ? errors.email : ' ' }
-                                label = 'Email'
-                                labelCol = { labelCol }
-                                validateStatus = { errors.email ? 'error' : 'success' }
-                                wrapperCol = { wrapperColInput }>
-                                <Input
-                                    // defaultValue = { initialValues.email }
-                                    name = 'email'
-                                    placeholder = 'Email'
-                                    prefix = { <Icon
-                                        style = {{ color: 'rgba(0,0,0,.25)' }}
-                                        type = 'mail'
-                                               /> }
-                                    value = { values.email }
-                                    onBlur = { handleBlur }
+                                wrapperCol = { wrapperColText }>
+                                <Checkbox
+                                    name = 'status'
+                                    values = { values.status }
                                     onChange = { handleChange }
                                 />
                             </FormItem>
-
                             <FormItem
                                 hasFeedback
                                 help = { errors.text ? errors.text : ' ' }
@@ -191,9 +116,9 @@ class TaskForm extends Component {
                                     className = { Styles.buttonEditForm }
                                     icon = 'close'
                                     key = 'back'
-                                    onClick = { this._hideModalEditTask }
                                     type = 'danger'
-                                    ghost>Закрыть
+                                    ghost
+                                    onClick = { this._closeEditTask }>Закрыть
                                 </Button>
                                 <Button
                                     className = { Styles.buttonEditForm }
@@ -209,7 +134,7 @@ class TaskForm extends Component {
                                     icon = 'check'
                                     key = 'submit'
                                     type = 'primary'
-                                    onClick = { _createTask }>Сохранить
+                                    onClick = { _updateTask }>Сохранить
                                 </Button>
                             </div>
                         </Form>
@@ -230,10 +155,7 @@ export default class EditTask extends Component {
     render() {
         const { tasks, actions } = this.props;
         const _title = (
-            <p>
-                <img src = '/static/favicon/beejee-20x20.png'/>
-                {tasks.getIn([ 'previewTask', 'id' ]) ? '    Редактирование задачи' : '    Новая задача'}
-            </p>
+            <p><img src = '/static/favicon/beejee-20x20.png'/> Редактирование задачи</p>
         );
 
         return (

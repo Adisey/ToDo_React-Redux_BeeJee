@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 // Styles
 import Styles from './styles.m.css';
 // Components
-import { TasksList, ModalPreviewTask, NewTask, SortTaskBar } from '../';
+import { TasksList, ModalPreviewTask, NewTask, EditTask, SortTaskBar } from '../';
 // Antd
 import { Pagination, Button } from 'antd';
 
@@ -93,6 +93,12 @@ class Tasks extends Component {
                         />
                       </div>
                 }
+                {/*  Скрытое модальное окно Редактирования задачи */}
+                {tasks.get('isModalEditTask')
+                    ? <EditTask
+                        actions = { actions }
+                        tasks = { tasks }
+                      /> : null }
                 {/*  Скрытое модальное окно Просмотра */}
                 {tasks.get('isModalPreviewTask') ? <ModalPreviewTask
                     actions = { actions }

@@ -57,10 +57,10 @@ export const tasksReducer = (state = initalState, action) => {
         case type.CREATE_TASK:
             return state.set('tasks', state.get('tasks').unshift(fromJS(action.payload)));
 
-        case type.CHANGE_TASK:
+        case type.UPDATE_TASK:
             return state.set('tasks', state.get('tasks').map((task) => {
                 if (task.get('id') === action.payload.id) {
-                    task = task.set('message', action.payload.message);
+                    task = fromJS(action.payload);
                 }
 
                 return task;
@@ -99,17 +99,21 @@ export const tasksReducer = (state = initalState, action) => {
             return state.delete('isModalPreviewTask');
 
         case type.SHOW_MODAL_EDIT_TASK:
-            return state.set('isModalEditTask', true);
+            let showModalEditTaskState =  state.set('editTaskId', action.payload);
+
+            return showModalEditTaskState.set('isModalEditTask', true);
 
         case type.HIDE_MODAL_EDIT_TASK:
-            const hideModalEditTask = state.delete('previewTask');
+            let hideModalEditTask = state.delete('previewTask');
+            hideModalEditTask = state.delete('editTaskId');
 
             return hideModalEditTask.delete('isModalEditTask');
+
         case type.SHOW_MODAL_NEW_TASK:
             return state.set('isModalNewTask', true);
 
         case type.HIDE_MODAL_NEW_TASK:
-            const hideModalNewTask = state.delete('previewTask');
+            let hideModalNewTask = state.delete('previewTask');
 
             return hideModalNewTask.delete('isModalNewTask');
 
@@ -118,13 +122,14 @@ export const tasksReducer = (state = initalState, action) => {
             return state.setIn([ 'previewTask', 'image_path' ], action.payload);
 
         case type.LOAD_DATA_PREVIEW_TASK:
-            const previewTask = state.get('previewTask').toJS();
-            previewTask.username = action.payload.username;
-            previewTask.email = action.payload.email;
-            previewTask.text = action.payload.text;
+            const loadDataImage = state.getIn([ 'previewTask', 'image_path' ])
+                ? state.getIn([ 'previewTask', 'image_path' ])
+                : action.payload.image_path
+                    ? action.payload.image_path : '';
+            const previewTask =  action.payload;
+            previewTask.image_path = loadDataImage;
 
             return state.set('previewTask', fromJS(previewTask));
-
 
         default:
             return state;

@@ -22,7 +22,7 @@ export default class TasksList extends Component {
     };
 
     render() {
-        const {tasks, authenticate} = this.props;
+        const {tasks, authenticate, actions} = this.props;
         const isAuthenticated = authenticate.get('isAuthenticated');
         let editColumn = {};
         if (isAuthenticated) {
@@ -86,6 +86,7 @@ export default class TasksList extends Component {
         const _data = tasks.get('tasks').map((t) => {
             const _editTask = ()=>{
                 console.log('_editTask -> "id" -> ', t.get('id'));
+                actions.showModalEditTask(t.get('id'));
             };
 
             return {
@@ -94,15 +95,42 @@ export default class TasksList extends Component {
                 email:    t.get('email'),
                 text:     t.get('text'),
                 status:   t.get('status')
-                    ? <Icon
-                        theme = 'twoTone'
-                        twoToneColor = '#52c41a'
-                        type = 'check-circle'
-                    /> : <Icon
-                          theme = 'twoTone'
-                          twoToneColor = '#eb2f96'
-                          type = 'clock-circle'
-                           />,
+                    ? <Popover
+                        content = { <p>
+                            <Icon
+                                style = {{ fontSize: '26px'}}
+                                theme = 'twoTone'
+                                twoToneColor = '#52c41a'
+                                type = 'check-circle'
+                            />  Выполнено
+                        </p> }
+                        title = { t.get('text') }
+                        trigger = 'hover'>
+                        <Icon
+                            style = {{ fontSize: '26px'}}
+                            theme = 'twoTone'
+                            twoToneColor = '#52c41a'
+                            type = 'check-circle'
+                        />
+                    </Popover>
+                    : <Popover
+                        content = { <p>
+                            <Icon
+                                style = {{ fontSize: '26px'}}
+                                theme = 'twoTone'
+                                twoToneColor = '#eb2f96'
+                                type = 'clock-circle'
+                            />  Не выполено
+                        </p> }
+                        title = { t.get('text') }
+                        trigger = 'hover'>
+                        <Icon
+                            style = {{ fontSize: '26px'}}
+                            theme = 'twoTone'
+                            twoToneColor = '#eb2f96'
+                            type = 'clock-circle'
+                        />
+                    </Popover>,
                 image: t.get('image_path')
                     ? <Popover
                         content = { <img

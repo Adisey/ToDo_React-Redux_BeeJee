@@ -32,12 +32,14 @@ export default class ModalPreviewTask extends Component {
                 theme = 'twoTone'
                 twoToneColor = '#52c41a'
                 type = 'check-circle'
+                style = {{ fontSize: '26px'}}
             />
         ) : (
             <Icon
                 theme = 'twoTone'
                 twoToneColor = '#eb2f96'
                 type = 'clock-circle'
+                style = {{ fontSize: '26px'}}
             />
         );
 

@@ -16,15 +16,16 @@ export const tasksActions = {
 
         };
     },
+    updateTask: (task) => {
+        return {
+            type:    type.UPDATE_TASK,
+            payload: task,
+
+        };
+    },
     completeTask: (task) => {
         return {
             type:    type.COMPLETE_TASK,
-            payload: task,
-        };
-    },
-    changeTask: (task) => {
-        return {
-            type:    type.CHANGE_TASK,
             payload: task,
         };
     },
@@ -97,21 +98,21 @@ export const tasksActions = {
             type: type.FETCH_TASKS_ASYNC,
         };
     },
-    createTaskAsync: (t) => {
+    createTaskAsync: (task) => {
         return {
             type:    type.CREATE_TASK_ASYNC,
-            payload: t,
+            payload: task,
+        };
+    },
+    updateTaskAsync: (task) => {
+        return {
+            type:    type.UPDATE_TASK_ASYNC,
+            payload: task,
         };
     },
     completeTaskAsync: (task) => {
         return {
             type:    type.COMPLETE_TASK_ASYNC,
-            payload: task,
-        };
-    },
-    changeTaskAsync: (task) => {
-        return {
-            type:    type.CHANGE_TASK_ASYNC,
             payload: task,
         };
     },
