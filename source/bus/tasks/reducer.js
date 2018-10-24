@@ -77,7 +77,6 @@ export const tasksReducer = (state = initalState, action) => {
 
         case type.SHOW_MODAL_PREVIEW_TASK:
             let newState = state.set('isModalPreviewTask', true);
-            console.log('SHOW_MODAL_PREVIEW_TASK -> action.payload ===-> ', action.payload);
             if (action.payload) {
                 let task = {};
                 newState
@@ -97,7 +96,9 @@ export const tasksReducer = (state = initalState, action) => {
             return newState;
 
         case type.HIDE_MODAL_PREVIEW_TASK:
-            return state.delete('isModalPreviewTask');
+            const hideModalPreviewTask = state.delete('previewTask');
+
+            return hideModalPreviewTask.delete('isModalPreviewTask');
 
         case type.SHOW_MODAL_EDIT_TASK:
             let showModalEditTaskState =  state.set('editTaskId', action.payload);
@@ -118,9 +119,6 @@ export const tasksReducer = (state = initalState, action) => {
 
             return hideModalNewTask.delete('isModalNewTask');
 
-
-        case type.LOAD_IMAGE64_PREVIEW_TASK:
-            return state.setIn([ 'previewTask', 'image_path' ], action.payload);
 
         case type.LOAD_DATA_PREVIEW_TASK:
             const loadDataImage = state.getIn([ 'previewTask', 'image_path' ])

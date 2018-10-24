@@ -24,6 +24,9 @@
     justify-content: center;
     font-family: Geneva, Arial, Helvetica, sans-serif;
     background: #f3f3f3;
+    & span {
+        color: #d41f1f;
+    }
 }
 .dropzoneInfo {
     display: flex;

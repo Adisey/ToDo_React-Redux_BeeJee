@@ -61,12 +61,6 @@ export const tasksActions = {
             type: type.HIDE_MODAL_NEW_TASK,
         };
     },
-    loadImage64PreviewTask: (img) => {
-        return {
-            type:    type.LOAD_IMAGE64_PREVIEW_TASK,
-            payload: img,
-        };
-    },
     loadDataPreviewTask: (task) => {
         return {
             type:    type.LOAD_DATA_PREVIEW_TASK,

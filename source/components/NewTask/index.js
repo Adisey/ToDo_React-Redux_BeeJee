@@ -20,7 +20,6 @@ import ImageCompressor from 'image-compressor.js';
 import { antNotification } from '../../instruments';
 // Styles
 import Styles from './styles.m.css';
-import cx from 'classnames';
 
 // Components
 
@@ -42,35 +41,8 @@ class NewTaskForm extends Component {
         this.props.actions.hideModalNewTask();
     };
 
-    _loadImage = (files) => {
-        const downloadableFile = files[ 0 ];
-        const _putImage64LocalStore = (downloadedCompressedFile64) => {
-            this.props.actions.loadImage64PreviewTask(downloadedCompressedFile64);
-        };
-        new ImageCompressor(downloadableFile, {
-            quality:   0.8,
-            maxHeight: 240,
-            maxWidth:  320,
-            success(compressedFile) {
-                const loader = new FileReader();
-                loader.onload = () => {
-                    const downloadedCompressedFile = loader.result;
-                    _putImage64LocalStore(downloadedCompressedFile);
-                };
-                loader.onabort = () => antNotification('Загрузка прервана!', 'error', '', 3);
-                loader.onerror = () => antNotification('Ошибка при загрузке!', 'error');
-                loader.readAsDataURL(compressedFile);
-            },
-            error(error) {
-                antNotification('Ошибка сжатия файла!', 'error', error.message);
-            },
-        });
-    };
-
     render() {
         const { tasks } = this.props;
-
-        const imgSrc = tasks.getIn([ 'previewTask', 'image_path' ]);
 
         return (
             <Formik
@@ -83,18 +55,40 @@ class NewTaskForm extends Component {
                         isValid,
                         handleChange,
                         handleBlur,
+                        setFieldValue,
                     } = props;
-                    const _isValid = isValid && !!imgSrc;
+                    const _isValid = isValid && !!values.image_path;
                     const _createTask = () => {
                         const task = values;
-                        task.image_path = imgSrc;
-                        //------------------------------------------------------------
                         task.image = tasks.getIn([ 'previewTask', 'image' ]);
                         this._createTaskAsync(task);
                     };
                     const _showPreviewTask = () => {
-                        const previewTask = values;
-                        this._showModalPreviewTask(previewTask);
+                        this._showModalPreviewTask(values);
+                    };
+                    const _loadImage = (files) => {
+                        const downloadableFile = files[ 0 ];
+                        const _putImage64LocalStore = (downloadedCompressedFile64) => {
+                            setFieldValue('image_path', downloadedCompressedFile64);
+                        };
+                        new ImageCompressor(downloadableFile, {
+                            quality:   0.8,
+                            maxHeight: 240,
+                            maxWidth:  320,
+                            success(compressedFile) {
+                                const loader = new FileReader();
+                                loader.onload = () => {
+                                    const downloadedCompressedFile = loader.result;
+                                    _putImage64LocalStore(downloadedCompressedFile);
+                                };
+                                loader.onabort = () => antNotification('Загрузка прервана!', 'error', '', 3);
+                                loader.onerror = () => antNotification('Ошибка при загрузке!', 'error');
+                                loader.readAsDataURL(compressedFile);
+                            },
+                            error(error) {
+                                antNotification('Ошибка сжатия файла!', 'error', error.message);
+                            },
+                        });
                     };
                     const labelCol = { span: 5 };
                     const wrapperColInput = { span: 12 };
@@ -108,15 +102,19 @@ class NewTaskForm extends Component {
                                         accept = 'image/jpeg, image/png, image/gif'
                                         className = 'previewPictureCreateIngredient'
                                         multiple = { false }
-                                        onDrop = { this._loadImage.bind(this) }>
-                                        {imgSrc ? <img
+                                        onDrop = { _loadImage.bind(this) }>
+                                        {values.image_path ? <img
                                             className = { Styles.showCreateIngredientPicture }
-                                            src = { imgSrc }
+                                            src = { values.image_path }
                                         />
                                             : <div className = { Styles.dropzoneInfo }>
                                                 <p>Перетащиете сюда изображение</p>
                                                 <p>или нажмите: </p>
-                                                <Button icon = 'cloud-upload'>Загрузить</Button>
+                                                <Button
+                                                    icon = 'cloud-upload'
+                                                    type = 'primary'>Загрузить
+                                                </Button>
+                                                <span>Картинка обязательна. ;)</span>
                                             </div>
                                         }
                                     </Dropzone>
