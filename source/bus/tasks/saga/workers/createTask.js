@@ -10,7 +10,7 @@ import { antNotification, b64toBlobFile } from '../../../../instruments';
 export function* createTask ({payload: task}) {
     try {
         yield put(uiActions.startSpining());
-        task.image = yield put(b64toBlobFile(task.image_path));
+        task.image = b64toBlobFile(task.image_path);
         const response = yield apply(api, api.tasks.create, [ task ]);
         const { message, status } = yield apply(response, response.json);
         if (response.status !== 200) {

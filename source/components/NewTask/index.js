@@ -25,7 +25,7 @@ import cx from 'classnames';
 // Components
 
 
-class TaskForm extends Component {
+class NewTaskForm extends Component {
     formikForm = createRef();
 
     _showModalPreviewTask = (previewTask) => {
@@ -35,7 +35,7 @@ class TaskForm extends Component {
 
     _createTaskAsync = (task) => {
         this.props.actions.createTaskAsync(task);
-        this.props.actions.hideModalEditTask();
+        this.props.actions.hideModalNewTask();
     };
 
     _loadImage = (files) => {
@@ -100,8 +100,6 @@ class TaskForm extends Component {
 
                     return (
                         <Form>
-                            <div>Редактирование!!!!</div>
-
                             <div className = { Styles.mainCreateIngredient }>
                                 <div className = { Styles.dropzoneCreateIngredient }>
                                     <Dropzone
@@ -222,27 +220,24 @@ class TaskForm extends Component {
     }
 }
 
-export default class EditTask extends Component {
-    _hideModalEditTask = () => {
-        this.props.actions.hideModalEditTask();
+export default class NewTask extends Component {
+    _hideModalNewTask = () => {
+        this.props.actions.hideModalNewTask();
     };
 
     render() {
         const { tasks, actions } = this.props;
         const _title = (
-            <p>
-                <img src = '/static/favicon/beejee-20x20.png'/>
-                {tasks.getIn([ 'previewTask', 'id' ]) ? '    Редактирование задачи' : '    Новая задача'}
-            </p>
+            <p> <img src = '/static/favicon/beejee-20x20.png'/>  Новая задача </p>
         );
 
         return (
             <Modal
-                onCancel = { this._hideModalEditTask }
+                onCancel = { this._hideModalNewTask }
                 title = { _title }
                 visible
                 footer = { null }>
-                <TaskForm
+                <NewTaskForm
                     actions = { actions }
                     tasks = { tasks }
                 />

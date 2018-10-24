@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 // Styles
 import Styles from './styles.m.css';
 // Components
-import { TasksList, ModalPreviewTask, EditTask, SortTaskBar } from '../';
+import { TasksList, ModalPreviewTask, NewTask, SortTaskBar } from '../';
 // Antd
 import { Pagination, Button } from 'antd';
 
@@ -50,12 +50,12 @@ class Tasks extends Component {
     };
 
     _newTask = () => {
-        this.props.actions.showModalEditTask();
+        this.props.actions.showModalNewTask();
     };
 
 
     render() {
-        const { tasks, actions } = this.props;
+        const { tasks, actions, authenticate } = this.props;
 
         return (
             <div className = { Styles.tasks }>
@@ -65,6 +65,7 @@ class Tasks extends Component {
                 />
                 <TasksList
                     actions = { actions }
+                    authenticate = { authenticate }
                     tasks = { tasks }
                 />
                 <div className = { Styles.PaginationBar }>
@@ -76,8 +77,9 @@ class Tasks extends Component {
                         total = { Number(tasks.get('total_task_count')) }
                     />
                 </div>
-                {tasks.get('isModalEditTask')
-                    ? <EditTask
+                {/*  Скрытое модальное окно Новой задачи */}
+                {tasks.get('isModalNewTask')
+                    ? <NewTask
                         actions = { actions }
                         tasks = { tasks }
                       />
@@ -91,7 +93,7 @@ class Tasks extends Component {
                         />
                       </div>
                 }
-                {/*  Скрытое модальное окно  */}
+                {/*  Скрытое модальное окно Просмотра */}
                 {tasks.get('isModalPreviewTask') ? <ModalPreviewTask
                     actions = { actions }
                     tasks = { tasks }

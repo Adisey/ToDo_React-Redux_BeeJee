@@ -99,31 +99,20 @@ export const tasksReducer = (state = initalState, action) => {
             return state.delete('isModalPreviewTask');
 
         case type.SHOW_MODAL_EDIT_TASK:
-            // let editState = state.set('isModalEditTask', true);
-            // let editTask = {
-            //     id:         '',
-            //     username:   '',
-            //     email:      '',
-            //     text:       '',
-            //     status:     0,
-            //     image_path: '',
-            // };
-            // if (action.payload) {
-            //     editState
-            //         .get('tasks')
-            //         .filter((t) => t.get('id') === action.payload)
-            //         .map((t) => {
-            //             editTask.id = t.get('id');
-            //             editTask.username = t.get('username');
-            //             editTask.email = t.get('email');
-            //             editTask.text = t.get('text');
-            //             editTask.status = t.get('status');
-            //             editTask.image_path = t.get('image_path');
-            //         });
-            // }
-            // editState = editState.set('previewTask', fromJS(editTask));
-            //
             return state.set('isModalEditTask', true);
+
+        case type.HIDE_MODAL_EDIT_TASK:
+            const hideModalEditTask = state.delete('previewTask');
+
+            return hideModalEditTask.delete('isModalEditTask');
+        case type.SHOW_MODAL_NEW_TASK:
+            return state.set('isModalNewTask', true);
+
+        case type.HIDE_MODAL_NEW_TASK:
+            const hideModalNewTask = state.delete('previewTask');
+
+            return hideModalNewTask.delete('isModalNewTask');
+
 
         case type.LOAD_IMAGE64_PREVIEW_TASK:
             return state.setIn([ 'previewTask', 'image_path' ], action.payload);
@@ -136,10 +125,6 @@ export const tasksReducer = (state = initalState, action) => {
 
             return state.set('previewTask', fromJS(previewTask));
 
-        case type.HIDE_MODAL_EDIT_TASK:
-            const hideModalEditTask = state.delete('previewTask');
-
-            return hideModalEditTask.delete('isModalEditTask');
 
         default:
             return state;

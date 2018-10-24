@@ -22,7 +22,25 @@ export default class TasksList extends Component {
     };
 
     render() {
-        const {tasks} = this.props;
+        const {tasks, authenticate} = this.props;
+        const isAuthenticated = authenticate.get('isAuthenticated');
+        let editColumn = {};
+        if (isAuthenticated) {
+            editColumn = {
+                title:     'Изменить',
+                dataIndex: 'editButton',
+                key:       'editButton',
+                className: cx(Styles.columnEditEnable),
+            };
+        } else {
+            editColumn = {
+                title:     '',
+                dataIndex: 'editButton',
+                key:       'editButton',
+                className: cx(Styles.columnEditDisable),
+            };
+        }
+
 
         const _columns = [
             {
@@ -62,8 +80,14 @@ export default class TasksList extends Component {
                 key:       'image',
 
             },
+            editColumn,
+
         ];
         const _data = tasks.get('tasks').map((t) => {
+            const _editTask = ()=>{
+                console.log('_editTask -> "id" -> ', t.get('id'));
+            };
+
             return {
                 key:      t.get('id'),
                 username: t.get('username'),
@@ -93,6 +117,18 @@ export default class TasksList extends Component {
                             src = { t.get('image_path') }
                         />
                     </Popover> : '',
+                editButton: isAuthenticated
+                    ? <Popover
+                        content = {  t.get('text') }
+                        title = 'Изменить'
+                        trigger = 'hover'>
+                        <Icon
+                            style = {{ fontSize: '26px'}}
+                            theme = 'twoTone'
+                            type = 'edit'
+                            onClick = { _editTask }
+                        />
+                      </Popover> : '',
             };
         })
             .toJS();
@@ -100,12 +136,10 @@ export default class TasksList extends Component {
 
         return (
             <Table
-                // bordered
                 className = { Styles.taskList }
                 columns = { _columns }
                 dataSource = { _data }
                 pagination = { false }
-                // size = 'small'
             />
         );
     }

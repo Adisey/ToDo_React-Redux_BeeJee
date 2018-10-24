@@ -12,14 +12,11 @@ export function* login ({ payload: userData }) {
     try {
         yield put(uiActions.startSpining());
         // ToDo: Пока нет API
-        console.log('Worker Login -> userData ->', userData);
-
         if (userData.login !== 'admin' || userData.password !== '123') {
             throw new Error('Access is denied');
         }
-
-
         yield put(authenticationAction.login());
+        yield call(antNotification, `${userData.login}, добро пожаловать!`);
     } catch (error) {
         yield put(uiActions.emitError(error, 'Login worker failed'));
         yield call(antNotification, 'Неправильные Login или Пароль!', 'error');

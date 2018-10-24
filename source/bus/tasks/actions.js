@@ -11,7 +11,7 @@ export const tasksActions = {
 
     createTask: (task) => {
         return {
-            type: type.CREATE_TASK,
+            type:    type.CREATE_TASK,
             payload: task,
 
         };
@@ -50,6 +50,16 @@ export const tasksActions = {
             type: type.HIDE_MODAL_EDIT_TASK,
         };
     },
+    showModalNewTask: () => {
+        return {
+            type: type.SHOW_MODAL_NEW_TASK,
+        };
+    },
+    hideModalNewTask: () => {
+        return {
+            type: type.HIDE_MODAL_NEW_TASK,
+        };
+    },
     loadImage64PreviewTask: (img) => {
         return {
             type:    type.LOAD_IMAGE64_PREVIEW_TASK,
@@ -84,12 +94,12 @@ export const tasksActions = {
     // Async
     fetchTasksAsync: () => {
         return {
-            type:    type.FETCH_TASKS_ASYNC,
+            type: type.FETCH_TASKS_ASYNC,
         };
     },
     createTaskAsync: (t) => {
         return {
-            type: type.CREATE_TASK_ASYNC,
+            type:    type.CREATE_TASK_ASYNC,
             payload: t,
         };
     },

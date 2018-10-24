@@ -116,14 +116,14 @@ export const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
 export const b64toBlobFile = (b64Data, fileWithoutExtension = 'my_file') => {
     let data = b64Data.split(':'); // crop 'data'
     const typeImg = data[ 1 ].split(';'); //crop 'image/png'
-    const type = typeImg[ 0 ]; // contentType
-    const ext = type.split('/');
+    const typeOut = typeImg[ 0 ]; // contentType
+    const ext = typeOut.split('/');
     const lastModified = Number(new Date());
     const fileName  = fileWithoutExtension !== 'my_file'
         ? fileWithoutExtension + '.' + ext[ 1 ]
         : `my_file-${lastModified}.${ext[ 1 ]}`;
     const b64 = typeImg[ 1 ].split(','); //crop 'base64,'
-    const outFile = b64toBlob(b64[ 1 ], type);
+    const outFile = b64toBlob(b64[ 1 ], typeOut);
     outFile.name = fileName;
     outFile.lastModified = lastModified;
     outFile.lastModifiedDate = new Date(lastModified);

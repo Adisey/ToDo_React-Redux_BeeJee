@@ -1,3 +1,14 @@
 .taskList {
     width: 100%;
 }
+
+.columnEditEnable {
+    //width: 100px;
+    color: #1e90fd;
+    fontSize: 20px;
+}
+
+.columnEditDisable {
+    width: 0;
+
+}
