@@ -44,7 +44,6 @@ class Header extends Component {
             actions.hideDrawerLogin();
         };
 
-
         return (
             <div className = { Styles.header }>
                 <div className = { Styles.avatarPlace }>
@@ -69,6 +68,7 @@ class Header extends Component {
                 </div>
                 <Drawer
                     closable = { false }
+                    height = { isAuthenticated ? 180 : 300 }
                     onClose = { _hideDrawerLogin }
                     placement = 'top'
                     title = { <p>
@@ -76,9 +76,8 @@ class Header extends Component {
                             icon = 'user'
                             shape = 'square'
                         /> {isAuthenticated ? 'Admin' : 'User'}
-                    </p> }
-                    visible = { isDraverLogin }
-                    height = { isAuthenticated ? 180 : 300 }>
+                              </p> }
+                    visible = { isDraverLogin }>
                     <ShowLogin
                         actions = { actions }
                         authenticate = { authenticate }
