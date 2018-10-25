@@ -12,6 +12,17 @@ export const authenticationAction = {
             type: type.LOGOUT,
         };
     },
+    showDrawerLogin: () => {
+        return {
+            type: type.SHOW_DRAWER_LOGIN,
+        };
+    },
+    hideDrawerLogin: () => {
+        return {
+            type: type.HIDE_DRAWER_LOGIN,
+        };
+    },
+
     // Async
     loginAsync: (userData) => {
         return {

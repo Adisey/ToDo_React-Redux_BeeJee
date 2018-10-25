@@ -119,7 +119,6 @@ export const tasksReducer = (state = initalState, action) => {
 
             return hideModalNewTask.delete('isModalNewTask');
 
-
         case type.LOAD_DATA_PREVIEW_TASK:
             const loadDataImage = state.getIn([ 'previewTask', 'image_path' ])
                 ? state.getIn([ 'previewTask', 'image_path' ])

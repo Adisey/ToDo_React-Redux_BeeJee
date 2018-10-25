@@ -9,30 +9,20 @@ import { Form, Icon, Input, Button   } from 'antd';
 const FormItem = Form.Item;
 //Styles
 import Styles from './styles.m.css';
-// Actions
-import { authenticationAction } from '../../bus/authenticate/actions';
 
-const mapStateToProps = (state) => {
-    return {
-        authenticate: state.authenticate,
-    };
-};
-
-const mapDispathToProps = {
-    loginAsync: authenticationAction.loginAsync,
-};
-
-class LoginForm extends Component {
+export default class LoginForm extends Component {
     formikForm = createRef();
 
     submitForm = (values) => {
-        const {loginAsync} = this.props;
+        const {actions} = this.props;
         console.log('Main SubmitForm ->', values);
-        loginAsync(values);
+        actions.loginAsync(values);
 
     };
 
     render () {
+        const { actions, authenticate } = this.props;
+
         return (
             <Formik
                 initialValues = { login.shape }
@@ -111,8 +101,3 @@ class LoginForm extends Component {
         );
     }
 }
-
-export default connect(
-    mapStateToProps,
-    mapDispathToProps,
-)(LoginForm);
