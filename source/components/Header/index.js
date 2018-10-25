@@ -71,9 +71,14 @@ class Header extends Component {
                     closable = { false }
                     onClose = { _hideDrawerLogin }
                     placement = 'top'
-                    title = {isAuthenticated ? 'Admin' : 'User'}
+                    title = { <p>
+                        <Avatar
+                            icon = 'user'
+                            shape = 'square'
+                        /> {isAuthenticated ? 'Admin' : 'User'}
+                    </p> }
                     visible = { isDraverLogin }
-                    height = {isAuthenticated ? 150 : 300}>
+                    height = { isAuthenticated ? 180 : 300 }>
                     <ShowLogin
                         actions = { actions }
                         authenticate = { authenticate }
