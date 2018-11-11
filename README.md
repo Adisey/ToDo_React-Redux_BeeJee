@@ -1,7 +1,7 @@
 
 # Тест по программированию от **BeeJee для** ***Смирнова Андрея***:
 
-###Создать приложение-задачник.
+### Создать приложение-задачник.
 
 Документацию по back-end можно найти тут:
 [https://uxcandy.com/~shapoval/test-task-backend/docs.html](https://uxcandy.com/~shapoval/test-task-backend/docs.html) 
@@ -34,3 +34,11 @@
 
 **Если Вы не смогли выполнить тестовое по любым причинам, пожалуйста, сообщите нам. Будем ждать вашего ответа в любом случае.**
 
+### Готовое задание.
+
+Ссылка на сайт - http://adisey.zzz.com.ua
+#### Скриншоты.
+*Главная страница*
+![Главная страница](https://github.com/Adisey/p902-BeeJee-ToDo/blob/master/demo/main-page.png)
+*Форма добавить*
+![Форма добавить](https://github.com/Adisey/p902-BeeJee-ToDo/blob/master/demo/new-task.png)
