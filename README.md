@@ -38,7 +38,11 @@
 
 Ссылка на сайт - http://adisey.zzz.com.ua
 #### Скриншоты.
-*Главная страница*
+**Главная страница**
 ![Главная страница](https://github.com/Adisey/p902-BeeJee-ToDo/blob/master/demo/main-page.png)
-*Форма добавить*
+**Форма добавить**
 ![Форма добавить](https://github.com/Adisey/p902-BeeJee-ToDo/blob/master/demo/new-task.png)
+**Предпросмотр картинки**
+![Предпросмотр картинки](https://github.com/Adisey/p902-BeeJee-ToDo/blob/master/demo/preview-image.png)
+
+
