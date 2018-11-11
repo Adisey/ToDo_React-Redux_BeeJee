@@ -35,14 +35,8 @@ const mapDispatchToProps = (dispatch) => {
 class Tasks extends Component {
     componentDidMount () {
         // ToDo: когда будет сервер
-        const {tasks, actions } = this.props;
-        // const measures =  {
-        //     page:           tasks.get('page'),
-        //     sort_field:     tasks.get('sort_field'),
-        //     sort_direction: tasks.get('sort_direction'),
-        // };
-        // actions.fetchTasksAsync(measures);
-        actions.fetchTasksAsync();
+        // const {tasks, actions } = this.props;
+        // actions.fetchTasksAsync();
     }
 
     _onChangePagination =(pageNumber) => {
